@@ -23,7 +23,7 @@ main(void)
 	struct can_frame frame;
 	struct ifreq ifr;
 
-	const char *ifname = "can1";
+	const char *ifname = "vcan0";
 
 	if((s = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
 		perror("Error while opening socket");
