@@ -43,6 +43,13 @@ int test::Wait4SpezialMsg(const char * iface_reciever, int timeoutMS)
     while(true)
     {
         if(reciever->canRecieveOne(&response,MSG_DONTWAIT)) util::printCANframe(response,iface_reciever);
+        else
+        {
+            //prevent busy waiting
+            //top %CPU dropped from 95% to 0,7%
+            std::this_thread::sleep_for (std::chrono::milliseconds(1));
+            continue;
+        }
         if(match::id(&response,0x01C))
         {
             std::cout<<"\nMSG found id = 0x01C\n";
@@ -51,6 +58,7 @@ int test::Wait4SpezialMsg(const char * iface_reciever, int timeoutMS)
 
         gettimeofday(&temp, 0);
         int time = ((temp.tv_usec - start.tv_usec)/1000)+((temp.tv_sec - start.tv_sec)*1000);
+
         if(time > (timeoutMS))
         {
             std::cout<<"\nTimout waiting for msg\n";

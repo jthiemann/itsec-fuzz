@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <thread>
 
 #include <linux/can.h>
 #include <linux/can/raw.h>
