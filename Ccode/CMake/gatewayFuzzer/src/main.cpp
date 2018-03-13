@@ -22,5 +22,6 @@ int main(void)
 
         test::Sending("vcan0");
         test::SendRecievePair("vcan0","vcan1");
-        test::Wait4SpezialMsg("vcan1",50000);
+        //test::Wait4SpezialMsgID(0x01C,"vcan1",5000);
+        test::SendAndWait4AllMsgID("can0","can1");
 }

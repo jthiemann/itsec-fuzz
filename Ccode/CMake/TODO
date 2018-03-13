@@ -1,0 +1,20 @@
+Offene Aufgaben bzw. nützliche Tools die noch entwickelt werden müssen
+-----------------------------------------------------------------------
+
+shellscript:
+-soll die dmesg auslesen und die leider zufällige Zuordnung spiX.X zu canX auflösen
+-anschließend müssen spi0.1  und spi0.2 mit 100000Hz und spi1.0 mit 500000Hz init. werden
+-die zuordnung muss im configfile landen
+ 
+filereader:
+-soll config file lesen aus dem parameter ins Programm gegeben werden
+
+filter:
+
+    hintergrundrauscheleminator
+    -merkt sich alle ID's die regelmäßig kommen und lässt nur neue ID's Nachrichten durch
+    -binäre suche für hohe leistung
+    -mogliche abwandlungen könnten sein:
+        -ermitteln der zykluszeit und bei nachrichten die nicht im Rythmus sind abweichungen erkennen
+        -updates bekannter ID's druchlassen
+        -spezielfälle ausblenden z.B ID 0x531 ist eine art zähler
