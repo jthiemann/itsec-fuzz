@@ -29,6 +29,35 @@ int test::SendRecievePair(const char * iface_sender, const char * iface_reciever
     return 0;
 }
 
+int test::dynamicInputfilterTest(const char * iface_reciever)
+{
+    std::cout<<"\n-----\ndynamicInputfilterTest(const char * iface_reciever)\n";
+    std::cout<<"filtered input"<< " to " << iface_reciever<<"\n";
+    canSocket * reciever = new canSocket(iface_reciever);
+
+    can_frame response;
+
+    dynamicInputfilter * dynfilter = new dynamicInputfilter();
+
+    while(true)
+    {
+        if(reciever->canRecieveOne(&response,MSG_DONTWAIT));
+        else
+        {
+            //prevent busy waiting
+            //top %CPU dropped from 95% to 0,7%
+            std::this_thread::sleep_for (std::chrono::milliseconds(1));
+            continue;
+        }
+        if(!dynfilter->testframe(&response))
+        {
+            util::printCANframe(response,iface_reciever);
+        }
+    }
+
+    dynfilter->~dynamicInputfilter();
+}
+
 int test::Wait4SpezialMsgID(int id, const char * iface_reciever, int timeoutMS)
 {
     std::cout<<"\n-----\ntestWait4SpezialMsg(const char * iface_reciever)\n";

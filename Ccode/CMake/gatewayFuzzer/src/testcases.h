@@ -12,4 +12,5 @@ int Sending(const char * iface);
 int SendRecievePair(const char * iface_sender, const char * iface_reciever);
 int Wait4SpezialMsgID(int id, const char * iface_reciever, int timeoutMS);
 int SendAndWait4AllMsgID(const char * iface_sender, const char * iface_reciever);
+int dynamicInputfilterTest(const char * iface_reciever);
 }
