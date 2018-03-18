@@ -2,6 +2,16 @@
 #include "canSocket.h"
 #include "util.h"
 #include "testcases.h"
+#include "filehandler.h"
+
+int test::config(const char * ifaceCom,const char * ifaceDia,const char * ifaceEng)
+{
+
+    std::cout<<"\nComfort   is on "<<ifaceCom;
+    std::cout<<"\nDiagnose  is on "<<ifaceDia;
+    std::cout<<"\nEngine    is on "<<ifaceEng;
+    return 0;
+}
 
 int test::Sending(const char * iface)
 {

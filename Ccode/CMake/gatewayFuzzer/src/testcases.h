@@ -8,6 +8,7 @@
 
 namespace test {
 
+int config(const char * ifaceCom,const char * ifaceDia,const char * ifaceEng);
 int Sending(const char * iface);
 int SendRecievePair(const char * iface_sender, const char * iface_reciever);
 int Wait4SpezialMsgID(int id, const char * iface_reciever, int timeoutMS);

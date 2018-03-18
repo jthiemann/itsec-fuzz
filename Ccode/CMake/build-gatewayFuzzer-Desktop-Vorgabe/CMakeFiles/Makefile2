@@ -60,39 +60,39 @@ CMAKE_SOURCE_DIR = /home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/gatewayFuzze
 CMAKE_BINARY_DIR = /home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe
 
 #=============================================================================
-# Target rules for target CMakeFiles/gatewayFuzzer.dir
+# Target rules for target CMakeFiles/gatewayFuzzer.bin.dir
 
 # All Build rule for target.
-CMakeFiles/gatewayFuzzer.dir/all:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/depend
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target gatewayFuzzer"
-.PHONY : CMakeFiles/gatewayFuzzer.dir/all
+CMakeFiles/gatewayFuzzer.bin.dir/all:
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/depend
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target gatewayFuzzer.bin"
+.PHONY : CMakeFiles/gatewayFuzzer.bin.dir/all
 
 # Include target in all.
-all: CMakeFiles/gatewayFuzzer.dir/all
+all: CMakeFiles/gatewayFuzzer.bin.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/gatewayFuzzer.dir/rule: cmake_check_build_system
+CMakeFiles/gatewayFuzzer.bin.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe/CMakeFiles 7
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/gatewayFuzzer.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/gatewayFuzzer.bin.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe/CMakeFiles 0
-.PHONY : CMakeFiles/gatewayFuzzer.dir/rule
+.PHONY : CMakeFiles/gatewayFuzzer.bin.dir/rule
 
 # Convenience name for target.
-gatewayFuzzer: CMakeFiles/gatewayFuzzer.dir/rule
+gatewayFuzzer.bin: CMakeFiles/gatewayFuzzer.bin.dir/rule
 
-.PHONY : gatewayFuzzer
-
-# clean rule for target.
-CMakeFiles/gatewayFuzzer.dir/clean:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/clean
-.PHONY : CMakeFiles/gatewayFuzzer.dir/clean
+.PHONY : gatewayFuzzer.bin
 
 # clean rule for target.
-clean: CMakeFiles/gatewayFuzzer.dir/clean
+CMakeFiles/gatewayFuzzer.bin.dir/clean:
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/clean
+.PHONY : CMakeFiles/gatewayFuzzer.bin.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/gatewayFuzzer.bin.dir/clean
 
 .PHONY : clean
 

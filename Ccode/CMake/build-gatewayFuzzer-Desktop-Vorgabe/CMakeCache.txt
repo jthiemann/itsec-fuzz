@@ -137,7 +137,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=gatewayFuzzer
+CMAKE_PROJECT_NAME:STATIC=gatewayFuzzer.bin
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -196,6 +196,12 @@ ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
 //No help, variable specified on the command line.
 QT_QMAKE_EXECUTABLE:STRING=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+
+//Value Computed by CMake
+gatewayFuzzer.bin_BINARY_DIR:STATIC=/home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe
+
+//Value Computed by CMake
+gatewayFuzzer.bin_SOURCE_DIR:STATIC=/home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/gatewayFuzzer
 
 //Value Computed by CMake
 gatewayFuzzer_BINARY_DIR:STATIC=/home/gunny/proggen/ITSEC/itsec-fuzz/Ccode/CMake/build-gatewayFuzzer-Desktop-Vorgabe

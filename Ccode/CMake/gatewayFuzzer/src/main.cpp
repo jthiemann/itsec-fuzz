@@ -16,9 +16,13 @@
 #include "filter.h"
 #include "canSocket.h"
 #include "testcases.h"
+#include "filehandler.h"
 
 int main(void)
 {
+        Config * conf = new Config("../config.gateway");
+
+        test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
         test::Sending("vcan0");
         test::SendRecievePair("vcan0","vcan1");

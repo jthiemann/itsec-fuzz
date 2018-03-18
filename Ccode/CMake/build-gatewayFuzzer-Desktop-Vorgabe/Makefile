@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named gatewayFuzzer
+# Target rules for targets named gatewayFuzzer.bin
 
 # Build rule for target.
-gatewayFuzzer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 gatewayFuzzer
-.PHONY : gatewayFuzzer
+gatewayFuzzer.bin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gatewayFuzzer.bin
+.PHONY : gatewayFuzzer.bin
 
 # fast build rule for target.
-gatewayFuzzer/fast:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/build
-.PHONY : gatewayFuzzer/fast
+gatewayFuzzer.bin/fast:
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/build
+.PHONY : gatewayFuzzer.bin/fast
 
 src/canSocket.o: src/canSocket.cpp.o
 
@@ -129,7 +129,7 @@ src/canSocket.o: src/canSocket.cpp.o
 
 # target to build an object file
 src/canSocket.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/canSocket.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/canSocket.cpp.o
 .PHONY : src/canSocket.cpp.o
 
 src/canSocket.i: src/canSocket.cpp.i
@@ -138,7 +138,7 @@ src/canSocket.i: src/canSocket.cpp.i
 
 # target to preprocess a source file
 src/canSocket.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/canSocket.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/canSocket.cpp.i
 .PHONY : src/canSocket.cpp.i
 
 src/canSocket.s: src/canSocket.cpp.s
@@ -147,7 +147,7 @@ src/canSocket.s: src/canSocket.cpp.s
 
 # target to generate assembly for a file
 src/canSocket.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/canSocket.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/canSocket.cpp.s
 .PHONY : src/canSocket.cpp.s
 
 src/filehandler.o: src/filehandler.cpp.o
@@ -156,7 +156,7 @@ src/filehandler.o: src/filehandler.cpp.o
 
 # target to build an object file
 src/filehandler.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filehandler.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filehandler.cpp.o
 .PHONY : src/filehandler.cpp.o
 
 src/filehandler.i: src/filehandler.cpp.i
@@ -165,7 +165,7 @@ src/filehandler.i: src/filehandler.cpp.i
 
 # target to preprocess a source file
 src/filehandler.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filehandler.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filehandler.cpp.i
 .PHONY : src/filehandler.cpp.i
 
 src/filehandler.s: src/filehandler.cpp.s
@@ -174,7 +174,7 @@ src/filehandler.s: src/filehandler.cpp.s
 
 # target to generate assembly for a file
 src/filehandler.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filehandler.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filehandler.cpp.s
 .PHONY : src/filehandler.cpp.s
 
 src/filter.o: src/filter.cpp.o
@@ -183,7 +183,7 @@ src/filter.o: src/filter.cpp.o
 
 # target to build an object file
 src/filter.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filter.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filter.cpp.o
 .PHONY : src/filter.cpp.o
 
 src/filter.i: src/filter.cpp.i
@@ -192,7 +192,7 @@ src/filter.i: src/filter.cpp.i
 
 # target to preprocess a source file
 src/filter.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filter.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filter.cpp.i
 .PHONY : src/filter.cpp.i
 
 src/filter.s: src/filter.cpp.s
@@ -201,7 +201,7 @@ src/filter.s: src/filter.cpp.s
 
 # target to generate assembly for a file
 src/filter.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/filter.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/filter.cpp.s
 .PHONY : src/filter.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -210,7 +210,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -219,7 +219,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -228,7 +228,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/testcases.o: src/testcases.cpp.o
@@ -237,7 +237,7 @@ src/testcases.o: src/testcases.cpp.o
 
 # target to build an object file
 src/testcases.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/testcases.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/testcases.cpp.o
 .PHONY : src/testcases.cpp.o
 
 src/testcases.i: src/testcases.cpp.i
@@ -246,7 +246,7 @@ src/testcases.i: src/testcases.cpp.i
 
 # target to preprocess a source file
 src/testcases.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/testcases.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/testcases.cpp.i
 .PHONY : src/testcases.cpp.i
 
 src/testcases.s: src/testcases.cpp.s
@@ -255,7 +255,7 @@ src/testcases.s: src/testcases.cpp.s
 
 # target to generate assembly for a file
 src/testcases.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/testcases.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/testcases.cpp.s
 .PHONY : src/testcases.cpp.s
 
 src/util.o: src/util.cpp.o
@@ -264,7 +264,7 @@ src/util.o: src/util.cpp.o
 
 # target to build an object file
 src/util.cpp.o:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/util.cpp.o
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/util.cpp.o
 .PHONY : src/util.cpp.o
 
 src/util.i: src/util.cpp.i
@@ -273,7 +273,7 @@ src/util.i: src/util.cpp.i
 
 # target to preprocess a source file
 src/util.cpp.i:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/util.cpp.i
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/util.cpp.i
 .PHONY : src/util.cpp.i
 
 src/util.s: src/util.cpp.s
@@ -282,7 +282,7 @@ src/util.s: src/util.cpp.s
 
 # target to generate assembly for a file
 src/util.cpp.s:
-	$(MAKE) -f CMakeFiles/gatewayFuzzer.dir/build.make CMakeFiles/gatewayFuzzer.dir/src/util.cpp.s
+	$(MAKE) -f CMakeFiles/gatewayFuzzer.bin.dir/build.make CMakeFiles/gatewayFuzzer.bin.dir/src/util.cpp.s
 .PHONY : src/util.cpp.s
 
 # Help Target
@@ -292,7 +292,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... gatewayFuzzer"
+	@echo "... gatewayFuzzer.bin"
 	@echo "... edit_cache"
 	@echo "... src/canSocket.o"
 	@echo "... src/canSocket.i"

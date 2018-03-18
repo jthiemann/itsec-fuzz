@@ -1,0 +1,23 @@
+#Config file for Can gateway-fuzzer
+#use vcanX on virtuel can network 
+#use canX on raspberry
+
+#Clockspeed info (raspberry only) should be used by the shell sript
+HZspi0.0::=100000
+HZspi0.1::=100000
+HZspi1.0::=500000
+
+#the next lines should be modified by the shell sript (raspberry only)
+can0::=spi0.0
+can1::=spi0.1
+can2::=spi1.0
+
+#Wiring info (raspberry only)
+#spi0.0 is wired to "unknown"
+#spi0.1 is wired to "unknown"
+#spi1.0 shoud be wired to engine bus for maximum speed
+
+#uncomand for use of vcanX
+vcan0
+vcan1
+vcan2

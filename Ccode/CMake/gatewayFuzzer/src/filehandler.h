@@ -6,14 +6,18 @@ class Config
 {
 public:
 
-    Config(const std::string& path);
+    Config(const std::string path);
     ~Config();
-    std::string read();
-    char * interfaceNameTranslation(std::string bustype);
+    const char *NameComfort();
+    const char *NameDiagnose();
+    const char *NameEngine();
+
 
 private:
+    std::string Name(int type);
     bool loaded;
-    std::string can0,can1,can2;
+    int canX[3];
+    bool v[3];
     std::ofstream File;
 };
 
