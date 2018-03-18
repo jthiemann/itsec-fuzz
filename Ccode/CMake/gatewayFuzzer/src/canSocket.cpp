@@ -10,6 +10,8 @@ canSocket::canSocket(const char * ifname)
                 error =  -1;
         }
 
+
+
         strcpy(ifr.ifr_name, _ifname);
         ioctl(s, SIOCGIFINDEX, &ifr);
 

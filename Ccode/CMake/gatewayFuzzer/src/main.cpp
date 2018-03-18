@@ -22,11 +22,7 @@ int main(void)
 {
         Config * conf = new Config("../config.gateway");
 
-        printf("%s",conf->NameEngine());
-
-        const char * test = conf->NameComfort();
-
-        test::config(test,conf->NameDiagnose(),conf->NameEngine());
+        test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
         test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");

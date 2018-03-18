@@ -13,7 +13,7 @@ Config::Config(const std::string path)
       while ( std::getline(confile,line) )
       {
         std::cout << line << '\n';
-
+        if(line.find("#") != std::string::npos) continue;
         if(line.find("vcan0") != std::string::npos) v[0] = true;
         if(line.find("vcan1") != std::string::npos) v[1] = true;
         if(line.find("vcan2") != std::string::npos) v[2] = true;
@@ -53,20 +53,29 @@ Config::Config(const std::string path)
 
 const char* Config::NameComfort()
 {
-    return Name(0).c_str();
+    std::string x = Name(0).c_str();
+    char *y = new char[x.length() + 1];
+    strcpy(y, x.c_str());
+    return y;
 }
 const char* Config::NameDiagnose()
 {
-    return Name(1).c_str();
+    std::string x = Name(1).c_str();
+    char *y = new char[x.length() + 1];
+    strcpy(y, x.c_str());
+    return y;
 }
 const char * Config::NameEngine()
 {
-    return Name(2).c_str();
+    std::string x = Name(2).c_str();
+    char *y = new char[x.length() + 1];
+    strcpy(y, x.c_str());
+    return y;
 }
 
 std::string Config::Name(int type)
 {
-    std::cout<<"\nwtf";
+
     std::string retV;
     for(int i = 0; i < 3; i++)
     {
