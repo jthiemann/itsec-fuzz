@@ -22,11 +22,15 @@ int main(void)
 {
         Config * conf = new Config("../config.gateway");
 
-        test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
+        printf("%s",conf->NameEngine());
+
+        const char * test = conf->NameComfort();
+
+        test::config(test,conf->NameDiagnose(),conf->NameEngine());
 
         test::Sending("vcan0");
-        test::SendRecievePair("vcan0","vcan1");
+        //test::SendRecievePair("vcan0","vcan1");
         //test::Wait4SpezialMsgID(0x01C,"vcan1",50000);
         //test::SendAndWait4AllMsgID("can0","can1");
-        test::dynamicInputfilterTest("vcan1");
+        //test::dynamicInputfilterTest("vcan1");
 }

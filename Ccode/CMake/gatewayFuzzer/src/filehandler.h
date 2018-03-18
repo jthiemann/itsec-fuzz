@@ -1,6 +1,7 @@
 #include <fstream>
+#include <iostream>
 #include "util.h";
-
+#include <stdlib.h>
 
 class Config
 {

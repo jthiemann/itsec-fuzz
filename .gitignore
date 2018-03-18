@@ -6,10 +6,13 @@
 *.exe
 *.o
 *.so
+*.bin
 
 # Directories#
 ##################
 **./bin
+**/build*/
+*build-*
 
 # Packages #
 ############
@@ -26,6 +29,9 @@
 
 # OS generated files #
 ######################
+*.user*
+*.user
+
 .DS_Store
 .DS_Store?
 ._*
@@ -33,3 +39,4 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+CMakeLists.txt.user*
