@@ -12,7 +12,7 @@ Config::Config(const std::string path)
 
       while ( std::getline(confile,line) )
       {
-        std::cout << line << '\n';
+        //std::cout << line << '\n';
         if(line.find("#") != std::string::npos) continue;
         if(line.find("vcan0") != std::string::npos) v[0] = true;
         if(line.find("vcan1") != std::string::npos) v[1] = true;

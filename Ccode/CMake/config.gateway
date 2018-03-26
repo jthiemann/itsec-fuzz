@@ -18,6 +18,6 @@ can2::=spi1.0
 #spi1.0 shoud be wired to engine bus for maximum speed
 
 #uncomand for use of vcanX
-#vcan0
-#vcan1
-#vcan2
+vcan0
+vcan1
+vcan2

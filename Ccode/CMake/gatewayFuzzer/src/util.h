@@ -15,6 +15,9 @@
 
 #include <sys/time.h>
 
+#pragma once
+
+enum blockby {once,allways,list,cyclic,update};
 
 namespace util {
 

@@ -49,6 +49,13 @@ int test::dynamicInputfilterTest(const char * iface_reciever)
 
     dynamicInputfilter * dynfilter = new dynamicInputfilter();
 
+    dynfilter->setblockby(0x531,allways);
+    dynfilter->setblockby(0x65f,allways);
+    dynfilter->setblockby(0x621,allways);
+    dynfilter->setblockby(0x575,allways);
+    dynfilter->setblockby(0x571,allways);
+    dynfilter->setblockby(0x65D,allways);
+
     while(true)
     {
         if(reciever->canRecieveOne(&response,MSG_DONTWAIT));
@@ -59,6 +66,7 @@ int test::dynamicInputfilterTest(const char * iface_reciever)
             std::this_thread::sleep_for (std::chrono::milliseconds(1));
             continue;
         }
+
         if(!dynfilter->testframe(&response))
         {
             util::printCANframe(response,iface_reciever);

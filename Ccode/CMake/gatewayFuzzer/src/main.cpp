@@ -24,9 +24,9 @@ int main(void)
 
         test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
-        test::Sending("vcan0");
+        //test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");
         //test::Wait4SpezialMsgID(0x01C,"vcan1",50000);
         //test::SendAndWait4AllMsgID("can0","can1");
-        //test::dynamicInputfilterTest("vcan1");
+        test::dynamicInputfilterTest(conf->NameComfort());
 }
