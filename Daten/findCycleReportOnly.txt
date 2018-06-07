@@ -1,0 +1,130 @@
+
+can1
+can2
+can0
+Comfort   is on can1
+Diagnose  is on can2
+Engine    is on can0
+can1
+can2
+can0hello
+-----
+dynamicInputfilterTest(const char * iface_reciever)
+filtered input to can1
+can1 at index 4
+filter running for 20s....
+
+FilterSettled?
+..................................................
+
+logging Cyles done
+..................................................
+Report for dynamic filter
+-----------------------------------------
+ID	    TOTAL	UPDATE
+0x359	210	1
+0x35B	210	1
+0x373	210	1
+0x3E1	210	1
+0x3E3	26	1
+0x400	115	1
+0x401	115	1
+0x40B	114	1
+0x40C	114	1
+0x457	210	1
+0x470	420	1
+0x527	105	1
+0x531	420	420
+0x571	42	1
+0x575	131	27
+0x591	105	1
+0x5D1	105	1
+0x5DD	210	1
+0x60E	21	1
+0x621	210	42
+0x62F	105	1
+0x631	21	1
+0x635	105	1
+0x651	42	1
+0x653	42	1
+0x655	42	1
+0x65D	21	21
+0x65F	105	105
+0x661	21	1
+0x665	21	1
+-----------------------------------------
+hello
+-----
+dynamicInputfilterTest(const char * iface_reciever)
+filtered input to can2
+can2 at index 5
+filter running for 20s....
+
+FilterSettled?
+..................................................
+
+logging Cyles done
+..................................................
+Report for dynamic filter
+-----------------------------------------
+ID	    TOTAL	UPDATE
+0x351	210	1
+0x359	210	1
+0x35B	210	1
+0x3E1	210	1
+0x3E3	26	1
+0x42B	150	1
+0x436	150	1
+0x43A	150	1
+0x470	420	1
+0x527	105	1
+0x531	840	420
+0x557	42	1
+0x571	42	1
+0x575	132	28
+0x604	21	1
+0x60E	21	1
+0x621	210	42
+0x62F	105	1
+0x635	105	1
+0x651	42	1
+0x653	43	1
+0x655	42	1
+0x65D	21	21
+0x65F	105	105
+0x661	21	1
+0x665	21	1
+0x680	20	1
+0x681	20	1
+0x682	21	1
+0x683	21	1
+0x684	21	1
+0x685	21	1
+-----------------------------------------
+hello
+-----
+dynamicInputfilterTest(const char * iface_reciever)
+filtered input to can0
+can0 at index 3
+filter running for 20s....
+
+FilterSettled?
+..................................................
+
+logging Cyles done
+..................................................
+Report for dynamic filter
+-----------------------------------------
+ID	    TOTAL	UPDATE
+0x320	1050	1050
+0x390	210	    7
+0x420	105	    1
+0x51A	42	    42
+0x520	105	    105
+0x570	210	    1
+0x5D0	210	    1
+0x5D2	105	    105
+0x5DC	210	    1
+0x5E0	1050	7
+0x7D0	21	    21
+-----------------------------------------
