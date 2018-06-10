@@ -12,7 +12,6 @@
 #include <linux/can/raw.h>
 #include <sys/time.h>
 
-
 #include "filter.h"
 #include "canSocket.h"
 #include "testcases.h"
