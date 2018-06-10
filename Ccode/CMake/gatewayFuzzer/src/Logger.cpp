@@ -9,19 +9,31 @@ using namespace FuzzLogging;
 
 Logger* Logger::m_Instance = 0;
 
+// Path to logfiles
+const string path = "";
+
 // Log file name
-const string logFileName = "fuzzing.log";
+const string file0 = "../logfiles/interface0.log";
+const string file1 = "../logfiles/interface1.log";
+const string file2 = "../logfiles/interface2.log";
+const string debug = "../logfiles/debug.log";
 
 Logger::Logger()
 {
-   m_File.open(logFileName.c_str(), ios::out|ios::app);
+   m_File0.open(file0.c_str(), ios::out|ios::app);
+   m_File1.open(file1.c_str(), ios::out|ios::app);
+   m_File2.open(file2.c_str(), ios::out|ios::app);
+   m_File3.open(debug.c_str(), ios::out|ios::app);
    m_LogLevel	= LOG_ALL;
-   m_LogType	= CONSOLE;
+   m_LogType	= FILE;
 }
 
 Logger::~Logger()
 {
-   m_File.close();
+   m_File0.close();
+   m_File1.close();
+   m_File2.close();
+   m_File3.close();
 }
 
 Logger* Logger::getInstance() throw ()
@@ -33,14 +45,16 @@ Logger* Logger::getInstance() throw ()
    return m_Instance;
 }
 
-void Logger::logIntoFile(std::string& data)
+void Logger::logIntoFile(std::string& data, std::ofstream& file)
 {
-   m_File << getCurrentTime() << "  " << data << endl;
+   file << getCurrentTime() << "  " << data << endl;
+   cout << getCurrentTime() << "  " << data << endl;
+
 }
 
 void Logger::logOnConsole(std::string& data)
 {
-   cout << getCurrentTime() << "  " << data << endl;
+    //TODO: Change or remove "only console" functionality
 }
 
 string Logger::getCurrentTime()
@@ -57,15 +71,15 @@ string Logger::getCurrentTime()
 }
 
 // Interface for Error Log
-void Logger::error(const char* text) throw()
+void Logger::error(const char* text, std::ofstream& file) throw()
 {
    string data;
    data.append("[ERROR]: ");
    data.append(text);
 
-   if(m_LogType == FILE_LOG)
+   if(m_LogType == FILE)
    {
-      logIntoFile(data);
+      logIntoFile(data, file);
    }
    else if(m_LogType == CONSOLE)
    {
@@ -73,45 +87,73 @@ void Logger::error(const char* text) throw()
    }
 }
 
-void Logger::error(std::string& text) throw()
+void Logger::error(string text, LogChannel channel) throw()
 {
-   error(text.data());
+    if (channel == 1) {
+        error(text.data(), m_File0);
+    } else if (channel == 2) {
+        error(text.data(), m_File1);
+    } else if ( channel == 3) {
+        error(text.data(), m_File2);
+    } else if (channel == 4){
+        error(text.data(), m_File3);
+    }
 }
 
-void Logger::error(std::ostringstream& stream) throw()
+void Logger::error(const char* text, LogChannel channel) throw()
 {
-   string text = stream.str();
-   error(text.data());
+   if (channel == 1) {
+       error(text, m_File0);
+   } else if (channel == 2) {
+       error(text, m_File1);
+   } else if ( channel == 3) {
+       error(text, m_File2);
+   } else if (channel == 4){
+       error(text, m_File3);
+   }
 }
+
 
 // Interface for Info Log
-void Logger::info(const char* text) throw()
+void Logger::info(const char* text, std::ofstream& file) throw()
 {
    string data;
    data.append("[INFO]: ");
    data.append(text);
 
-   if((m_LogType == FILE_LOG) && (m_LogLevel == LOG_ALL))
+   if((m_LogType == FILE) && (m_LogLevel == LOG_ALL))
    {
-      logIntoFile(data);
+      logIntoFile(data, file);
    }
    else if((m_LogType == CONSOLE) && (m_LogLevel == LOG_ALL))
    {
       logOnConsole(data);
    }
 }
-
-void Logger::info(std::string& text) throw()
+void Logger::info(string text, LogChannel channel) throw()
 {
-   info(text.data());
+    if (channel == 1) {
+        info(text.data(), m_File0);
+    } else if (channel == 2) {
+        info(text.data(), m_File1);
+    } else if ( channel == 3) {
+        info(text.data(), m_File2);
+    } else if (channel == 4){
+        info(text.data(), m_File3);
+    }
 }
-
-void Logger::info(std::ostringstream& stream) throw()
+void Logger::info(const char* text, LOG_CHANNEL channel) throw()
 {
-   string text = stream.str();
-   info(text.data());
+    if (channel == 1) {
+        info(text, m_File0);
+    } else if (channel == 2) {
+        info(text, m_File1);
+    } else if ( channel == 3) {
+        info(text, m_File2);
+    } else if (channel == 4){
+        info(text, m_File3);
+    }
 }
-
 
 // Interfaces to control log levels
 void Logger::updateLogLevel(LogLevel logLevel)
@@ -144,6 +186,6 @@ void Logger::enableConsoleLogging()
 
 void Logger::enableFileLogging()
 {
-   m_LogType = FILE_LOG;
+   m_LogType = FILE;
 }
 
