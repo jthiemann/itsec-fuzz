@@ -24,5 +24,7 @@ namespace util {
 int printCANframe(can_frame frame, const char *iface);
 void deepcopyCANframe(can_frame src, can_frame dest);
 
+std::string toHexString(int hex);
+
 }
 

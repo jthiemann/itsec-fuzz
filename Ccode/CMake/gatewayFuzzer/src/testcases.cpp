@@ -56,6 +56,11 @@ int test::dynamicInputfilterTest(const char * iface_reciever)
     dynfilter->setblockby(0x571,allways);
     dynfilter->setblockby(0x65D,allways);
 
+    dynfilter->setblockby(0x520,allways);
+    dynfilter->setblockby(0x570,allways);
+    dynfilter->setblockby(0x5D2,allways);
+    dynfilter->setblockby(0x320,allways);
+
     while(true)
     {
         if(reciever->canRecieveOne(&response,MSG_DONTWAIT));

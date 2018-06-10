@@ -65,11 +65,33 @@ void dynamicInputfilter::setblockby(int id, int blocktype)
     }
 }
 
+std::string dynamicInputfilter::getReportRList()
+{
+    std::string retval = "Report for dynamic filter\n";
+    retval.append("-----------------------------------------\n");
+    retval.append("ID\tTOTAL\tUPDATE\n");
+
+    for(int i = 0; i < arraylenght; i++)
+    {
+        idmetrik  elem = *_array[i];
+        if( elem.getid() != 0)
+        {
+
+            retval.append(util::toHexString(i)+"\t");
+            retval.append(std::to_string(elem.getRCount())+"\t");
+            retval.append(std::to_string(elem.getRUpdates())+"\n");
+        }
+    }
+    retval.append("-----------------------------------------\n");
+    return retval;
+}
+
 idmetrik::idmetrik(int id)
 {
     _id = id;
     _blocked = false;
     _counter = 0;
+    _updates = 0;
     msg[8];
     dlc = -1;
     _blockby = update;
@@ -96,17 +118,20 @@ void idmetrik::setblockby(int blocktype)
 
 bool idmetrik::test(can_frame *frame)
 {
+    //return true if the msg is blocked
+
+    _counter++; //overall Counter
 
     if(_blockby == once)
     {
-
-        _counter++;
         if(_counter > 1) _blocked = true;
         return _blocked;
     }
 
     if(_blockby == update)
     {
+
+
         if(dlc == -1)
         {
             //first time
@@ -115,6 +140,7 @@ bool idmetrik::test(can_frame *frame)
             {
                 msg[i] = frame->data[i];
             }
+            _updates++;
             return false;
         }
         else
@@ -127,6 +153,7 @@ bool idmetrik::test(can_frame *frame)
                 {
                     msg[i] = frame->data[i];
                 }
+                _updates++;
                 return false;
             }
             else
@@ -137,6 +164,7 @@ bool idmetrik::test(can_frame *frame)
                     if(msg[i] != frame->data[i]) change = false;
                     msg[i] = frame->data[i];
                 }
+                if(!change) _updates++;
                 return change;
             }
 

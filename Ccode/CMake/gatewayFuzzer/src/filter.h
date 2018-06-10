@@ -28,10 +28,15 @@ public:
     bool test(can_frame *frame);
     bool getblock() {return _blocked;}
     bool getid() {return _id;}
+
+    int getRCount() {return _counter;}
+    int getRUpdates() {return _updates;}
+
 private:
     bool _blocked;
     int _id;
     int _counter;
+    int _updates;
     int _blockby;
 
     uint8_t msg[8];
@@ -49,6 +54,8 @@ public:
 
     bool testframe(can_frame *frame);
     void setblockby(int id,int blocktype);
+    std::string getReportStatistic();
+    std::string getReportRList();
 
 private:
     idmetrik *_array[arraylenght];

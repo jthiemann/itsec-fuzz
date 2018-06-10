@@ -13,6 +13,14 @@ int util::printCANframe(can_frame frame,const char * iface)
         return 0;
 }
 
+std::string util::toHexString(int hex)
+{
+    char buffer[20];
+    sprintf(buffer,"0x%X",hex);
+    std::string out(buffer,strlen(buffers));
+    return out;
+}
+
 
 
 void util::deepcopyCANframe(can_frame src, can_frame dest)

@@ -16,6 +16,7 @@
 #include "filter.h"
 #include "canSocket.h"
 #include "testcases.h"
+#include "testcaseCyclic.h"
 #include "filehandler.h"
 
 int main(void)
@@ -28,5 +29,8 @@ int main(void)
         //test::SendRecievePair("vcan0","vcan1");
         //test::Wait4SpezialMsgID(0x01C,"vcan1",50000);
         //test::SendAndWait4AllMsgID("can0","can1");
-        test::dynamicInputfilterTest(conf->NameComfort());
+        //test::dynamicInputfilterTest(conf->NameComfort());
+        //test::dynamicInputfilterTest("vcan0");
+
+        test::findCyclesLog(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine(),true);
 }

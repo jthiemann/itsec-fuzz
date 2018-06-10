@@ -12,6 +12,7 @@ set(SOURCE
    ${SRC_DIR}/canSocket.cpp
    ${SRC_DIR}/filter.cpp
    ${SRC_DIR}/testcases.cpp
+   ${SRC_DIR}/testcaseCyclic.cpp
    ${SRC_DIR}/util.cpp
    ${SRC_DIR}/filehandler.cpp
 )
