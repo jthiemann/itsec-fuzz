@@ -1,6 +1,11 @@
 #include "util.h"
+#include <stdlib.h>
 
-
+int util::updateDMESG()
+{
+int status = system("../getSPICANX");
+return status;
+}
 
 int util::printCANframe(can_frame frame,const char * iface)
 {
@@ -17,7 +22,7 @@ std::string util::toHexString(int hex)
 {
     char buffer[20];
     sprintf(buffer,"0x%X",hex);
-    std::string out(buffer,strlen(buffers));
+    std::string out(buffer,strlen(buffer));
     return out;
 }
 

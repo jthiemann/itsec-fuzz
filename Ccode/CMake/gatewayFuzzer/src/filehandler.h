@@ -3,6 +3,19 @@
 #include "util.h"
 #include <stdlib.h>
 
+class Dmesg
+{
+public:
+    Dmesg(const std::string path);
+    ~Dmesg();
+    void readDmesg();
+
+private:
+    bool loaded;
+    int canX[3];
+    std::ofstream File;
+};
+
 class Config
 {
 public:

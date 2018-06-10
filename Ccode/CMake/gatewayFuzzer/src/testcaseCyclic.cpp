@@ -10,7 +10,6 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
     {
         bool settled = false;
         char iface_reciever[30];
-        std::cout<<"hello";
         if(i == 0 ) strcpy(iface_reciever,ifaceCom);
         if(i == 1 ) strcpy(iface_reciever,ifaceDia);
         if(i == 2 ) strcpy(iface_reciever,ifaceEng);
@@ -69,7 +68,7 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
         std::flush(std::cout);
         std::cout<<dynfilter->getReportRList();
 
-        //dynfilter->~dynamicInputfilter();
+        dynfilter->~dynamicInputfilter();
         //delete reciever;
     }
 

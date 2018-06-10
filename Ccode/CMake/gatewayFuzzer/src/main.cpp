@@ -21,7 +21,8 @@
 int main(void)
 {
         Config * conf = new Config("../config.gateway");
-
+        Dmesg * dm = new Dmesg("dmesgout.spi");
+        dm->readDmesg();
         test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
         //test::Sending("vcan0");
@@ -31,5 +32,7 @@ int main(void)
         //test::dynamicInputfilterTest(conf->NameComfort());
         //test::dynamicInputfilterTest("vcan0");
 
-        test::findCyclesLog(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine(),true);
+        //util::updateDMESG();
+
+        //test::findCyclesLog(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine(),true);
 }
