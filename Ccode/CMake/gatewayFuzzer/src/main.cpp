@@ -23,6 +23,9 @@ int main(void)
         Config * conf = new Config("../config.gateway");
         Dmesg * dm = new Dmesg("dmesgout.spi");
         dm->readDmesg();
+
+        int status = system("../upCANX can0 100000");
+
         test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
         //test::Sending("vcan0");

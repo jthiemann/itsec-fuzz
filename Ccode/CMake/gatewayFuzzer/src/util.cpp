@@ -7,6 +7,7 @@ int status = system("../getSPICANX");
 return status;
 }
 
+
 int util::printCANframe(can_frame frame,const char * iface)
 {
         printf("\n%s  0x%03X [%X]",iface,frame.can_id, frame.can_dlc);
