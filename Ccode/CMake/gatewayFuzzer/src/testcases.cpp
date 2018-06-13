@@ -223,6 +223,45 @@ int test::SendAndWait4AllMsgID(const char *iface_sender, const char *iface_recie
 
     delete sender;
     delete reciever;
+}
 
+int test::detectCanDown(const char *iface_reciever) {
+    canSocket * reciever = new canSocket(iface_reciever);
 
+    //Can is down when 2000ms no message is recieved
+    int timeoutMS = 2000;
+    bool ignore = false;
+    bool receivedMsg = false;
+    can_frame response;
+
+    struct timeval start, temp;
+
+    while (!ignore)
+    {
+        if(!reciever->canRecieveOne(&response,MSG_DONTWAIT))
+        {
+            if (receivedMsg) {
+                receivedMsg = false;
+                gettimeofday(&start, 0);
+            }
+
+            gettimeofday(&temp, 0);
+            int time = ((temp.tv_usec - start.tv_usec)/1000)+((temp.tv_sec - start.tv_sec)*1000);
+
+            if (time > timeoutMS) {
+                LOG_ERROR("A Can-Interface is down!", debugfile);
+                break;
+            }
+
+            //prevent busy waiting
+            std::this_thread::sleep_for (std::chrono::milliseconds(1));
+            continue;
+        } else {
+            receivedMsg = true;
+            gettimeofday(&start, 0);
+            gettimeofday(&temp, 0);
+        }
+    }
+
+    delete reciever;
 }

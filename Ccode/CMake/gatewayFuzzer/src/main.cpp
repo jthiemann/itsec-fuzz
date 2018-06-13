@@ -17,9 +17,11 @@
 #include "testcases.h"
 #include "testcaseCyclic.h"
 #include "filehandler.h"
+#include "Logger.h"
 
 int main(void)
 {
+        FuzzLogging::LOG_INFO("=======================NEW PROGRAM START!!!=======================", FuzzLogging::debugfile);
         Config * conf = new Config("../config.gateway");
         Dmesg * dm = new Dmesg("dmesgout.spi");
         dm->readDmesg();
@@ -27,6 +29,8 @@ int main(void)
         int status = system("../upCANX can0 100000");
 
         test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
+
+        test::detectCanDown(conf->NameComfort());
 
         //test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");
