@@ -26,10 +26,10 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
         int TimeFilterSettelms = 20 * 1000; //20 Sekunden
         int TimeFilterLogCycle = 21 * 1000;
 
-        LOG_INFO("-----DynamicInputfilterTest(const char * iface_reciever)\n", getChannelNameByNumber(i));
+        LOG_INFO("DynamicInputfilterTest(const char * iface_reciever)", getChannelNameByNumber(i));
 
         std::ostringstream ss;
-        ss << "filtered input to" << iface_reciever << std::endl;
+        ss << "filtered input to " << iface_reciever << std::endl;
         LOG_INFO(ss, getChannelNameByNumber(i));
 
         canSocket * reciever = new canSocket(iface_reciever);

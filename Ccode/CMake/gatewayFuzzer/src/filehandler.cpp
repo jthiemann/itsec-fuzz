@@ -1,4 +1,7 @@
 #include "filehandler.h"
+#include "Logger.h"
+
+using namespace FuzzLogging;
 
 Dmesg::Dmesg(const std::string path)
 {
@@ -35,20 +38,19 @@ void Dmesg::readDmesg()
             if(line.find("spi0.1")!= std::string::npos) canX[2] = 1;
             if(line.find("spi1.0")!= std::string::npos) canX[2] = 2;
         }
-
-
-
       }
+
       confile.close();
       loaded == true;
 
-      std::cout << "can0 is on spi 0." << canX[0]<<std::endl;
-      std::cout << "can0 is on spi 0." << canX[1]<<std::endl;
-      std::cout << "can0 is on spi 0." << canX[2]<<std::endl;
+      std::ostringstream ss;
+      ss << "can0 is on spi 0." << canX[0]<<std::endl;
+      ss << "can0 is on spi 0." << canX[1]<<std::endl;
+      ss << "can0 is on spi 0." << canX[2]<<std::endl;
 
+      LOG_INFO(ss, debugfile);
     }
-
-    else std::cout << "Unable to Dmesg outputfile open file";
+    else LOG_ERROR("Unable to Dmesg outputfile open file", debugfile);
 }
 
 Config::Config(const std::string path)
@@ -94,8 +96,7 @@ Config::Config(const std::string path)
       confile.close();
       loaded == true;
     }
-
-    else std::cout << "Unable to open file";
+    else LOG_ERROR("Unable to open file", debugfile);
 }
 
 
@@ -134,14 +135,16 @@ std::string Config::Name(int type)
             if(v[i]){
                 retV = "vcan";
                 retV += std::to_string(i);
-                std::cout<<"\n"<<retV;
+                //std::cout<<"\n"<<retV;
+                LOG_INFO(retV, debugfile);
                 return retV;
             }
             else
             {
                 retV="can";
                 retV += std::to_string(i);
-                std::cout<<"\n"<<retV;
+                //std::cout<<"\n"<<retV;
+                LOG_INFO(retV, debugfile);
                 return retV;
             }
         }

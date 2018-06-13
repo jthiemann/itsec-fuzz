@@ -3,13 +3,25 @@
 #include "util.h"
 #include "testcases.h"
 #include "filehandler.h"
+#include "Logger.h"
 
+using namespace FuzzLogging;
 int test::config(const char * ifaceCom,const char * ifaceDia,const char * ifaceEng)
 {
 
+    std::ostringstream ss;
+
+    ss <<"\nComfort   is on "<<ifaceCom;
+    ss <<"\nDiagnose  is on "<<ifaceDia;
+    ss <<"\nEngine    is on "<<ifaceEng;
+    LOG_INFO(ss, debugfile);
+
+    /*
     std::cout<<"\nComfort   is on "<<ifaceCom;
     std::cout<<"\nDiagnose  is on "<<ifaceDia;
     std::cout<<"\nEngine    is on "<<ifaceEng;
+    */
+
     return 0;
 }
 
