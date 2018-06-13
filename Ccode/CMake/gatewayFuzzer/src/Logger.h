@@ -6,6 +6,8 @@
 #include <sstream>
 #include <string>
 
+
+
 namespace FuzzLogging
 {
    // Direct Interface for logging into log file or console using MACRO(s)
@@ -28,10 +30,10 @@ namespace FuzzLogging
 
     typedef enum LOG_CHANNEL
     {
-        interface0        = 1,
-        interface1        = 2,
-        interface2        = 3,
-        debugfile         = 4,
+        interface0        = 0,
+        interface1        = 1,
+        interface2        = 2,
+        debugfile         = 3,
     }LogChannel;
 
    class Logger
@@ -48,6 +50,7 @@ namespace FuzzLogging
          void info(const char* text, std::ofstream& file) throw();
          void info(const char* text, LogChannel channel) throw();
          void info(std::string text, LogChannel channel) throw();
+         void info(std::ostringstream& stream, LogChannel channel) throw();
 
          // Interfaces to control log levels
          void updateLogLevel(LogLevel logLevel);
@@ -81,6 +84,8 @@ namespace FuzzLogging
          LogLevel                m_LogLevel;
          LogType                 m_LogType;
    };
+
+   LogChannel getChannelNameByNumber(int channel);
 
 } // End of namespace
 

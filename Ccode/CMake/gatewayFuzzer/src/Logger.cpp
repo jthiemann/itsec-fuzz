@@ -89,26 +89,26 @@ void Logger::error(const char* text, std::ofstream& file) throw()
 
 void Logger::error(string text, LogChannel channel) throw()
 {
-    if (channel == 1) {
+    if (channel == 0) {
         error(text.data(), m_File0);
-    } else if (channel == 2) {
+    } else if (channel == 1) {
         error(text.data(), m_File1);
-    } else if ( channel == 3) {
+    } else if ( channel == 2) {
         error(text.data(), m_File2);
-    } else if (channel == 4){
+    } else if (channel == 3){
         error(text.data(), m_File3);
     }
 }
 
 void Logger::error(const char* text, LogChannel channel) throw()
 {
-   if (channel == 1) {
+   if (channel == 0) {
        error(text, m_File0);
-   } else if (channel == 2) {
+   } else if (channel == 1) {
        error(text, m_File1);
-   } else if ( channel == 3) {
+   } else if ( channel == 2) {
        error(text, m_File2);
-   } else if (channel == 4){
+   } else if (channel == 3){
        error(text, m_File3);
    }
 }
@@ -132,27 +132,34 @@ void Logger::info(const char* text, std::ofstream& file) throw()
 }
 void Logger::info(string text, LogChannel channel) throw()
 {
-    if (channel == 1) {
+    if (channel == 0) {
         info(text.data(), m_File0);
-    } else if (channel == 2) {
+    } else if (channel == 1) {
         info(text.data(), m_File1);
-    } else if ( channel == 3) {
+    } else if ( channel == 2) {
         info(text.data(), m_File2);
-    } else if (channel == 4){
+    } else if (channel == 3){
         info(text.data(), m_File3);
     }
 }
-void Logger::info(const char* text, LOG_CHANNEL channel) throw()
+
+void Logger::info(const char* text, LogChannel channel) throw()
 {
-    if (channel == 1) {
+    if (channel == 0) {
         info(text, m_File0);
-    } else if (channel == 2) {
+    } else if (channel == 1) {
         info(text, m_File1);
-    } else if ( channel == 3) {
+    } else if ( channel == 2) {
         info(text, m_File2);
-    } else if (channel == 4){
+    } else if (channel == 3){
         info(text, m_File3);
     }
+}
+
+void Logger::info(std::ostringstream& stream, LogChannel channel) throw()
+{
+   string text = stream.str();
+   info(text.data(), channel);
 }
 
 // Interfaces to control log levels
@@ -189,3 +196,14 @@ void Logger::enableFileLogging()
    m_LogType = FILE;
 }
 
+LogChannel FuzzLogging::getChannelNameByNumber(int channel) {
+    if (channel == 0) {
+        return interface0;
+    } else if (channel == 1) {
+        return interface1;
+    } else if (channel == 2) {
+        return interface2;
+    } else if (channel == 3){
+        return debugfile;
+    }
+}
