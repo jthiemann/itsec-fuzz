@@ -14,8 +14,8 @@ public:
 
     void readDmesg();
 
-    int upSPI(int iface);
-    int downSPI(int iface);
+    int upSPI(int spi);
+    int downSPI(int spi);
     int upSPIAll();
     int downSPIAll();
 

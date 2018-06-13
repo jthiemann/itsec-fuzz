@@ -1,0 +1,4 @@
+echo 'doing: upCANX'  $1  $2
+#sudo modprobe vcan
+#sudo ip link add dev vcan$1 type vcan
+#sudo ip link set up vcan$1

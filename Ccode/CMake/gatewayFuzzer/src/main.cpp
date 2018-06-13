@@ -24,12 +24,12 @@ int main(void)
         FuzzLogging::LOG_INFO("=======================NEW PROGRAM START!!!=======================", FuzzLogging::debugfile);
         Config * conf = new Config("../config.gateway");
         Dmesg * dm = Dmesg::getInstance();
-        dm->readDmesg();
+        //dm->readDmesg();
         dm->upSPIAll();
+        dm->downSPIAll();
+        //test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 
-        test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
-
-        test::detectCanDown(conf->NameComfort());
+        //test::detectCanDown(conf->NameComfort());
 
         //test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");

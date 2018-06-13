@@ -1,0 +1,2 @@
+echo 'doing: downCANX'  $1 $2
+#sudo ip link set down vcan$1

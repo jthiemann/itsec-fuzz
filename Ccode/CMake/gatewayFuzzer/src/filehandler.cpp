@@ -8,12 +8,16 @@ Dmesg* Dmesg::m_Instance =0;
 
 Dmesg* Dmesg::getInstance()
 {
-    if(m_Instance == 0) Dmesg();
+    if(m_Instance == 0)
+    {
+        m_Instance = new Dmesg();
+    }
     return m_Instance;
 }
 
 Dmesg::Dmesg()
 {
+    loaded = false;
     readDmesg();
 }
 int Dmesg::upSPIAll()
@@ -34,24 +38,38 @@ int Dmesg::downSPIAll()
     return sum;
 }
 
-int Dmesg::downSPI(int iface)
+int Dmesg::downSPI(int spi)
 {
+    LOG_INFO("downSPI", debugfile);
+    LOG_INFO(std::to_string(spi), debugfile);
     std::string cmd = "../downCANX can";
-    int spi = getCANXfromSPIX(iface);
-    cmd += std::to_string(spi);
-
+    int canx = getCANXfromSPIX(spi);
+    if(canx < 0)
+    {
+        LOG_ERROR("downSPI failed", debugfile);
+        return 0;
+    }
+    cmd += std::to_string(canx);
+    LOG_INFO(cmd, debugfile);
     return system(cmd.c_str());
 }
 
-int Dmesg::upSPI(int iface)
+int Dmesg::upSPI(int spi)
 {
+    LOG_INFO("upSPI", debugfile);
+    LOG_INFO(std::to_string(spi), debugfile);
     std::string cmd = "../upCANX can";
-    int spi = getCANXfromSPIX(iface);
-    cmd += std::to_string(spi);
+    int canx = getCANXfromSPIX(spi);
+    if(canx < 0)
+    {
+        LOG_ERROR("upSPI failed", debugfile);
+        return 0;
+    }
+    cmd += std::to_string(canx);
     cmd += " ";
     if(spi == 2) cmd+= std::to_string(500000); // SPI 1.0
     else cmd+= std::to_string(100000); // SPI 0.0 oder 0.1
-
+    LOG_INFO(cmd, debugfile);
     return system(cmd.c_str());
 }
 
@@ -107,10 +125,10 @@ void Dmesg::readDmesg()
       }
 
       confile.close();
-      loaded == true;
+      loaded = true;
 
       std::ostringstream ss;
-      ss << "can0 is on spi 0." << canX[0]<<std::endl;
+      ss << "\ncan0 is on spi 0." << canX[0]<<std::endl;
       ss << "can1 is on spi 0." << canX[1]<<std::endl;
       ss << "can2 is on spi 0." << canX[2]<<std::endl;
 
