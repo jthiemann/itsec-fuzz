@@ -23,10 +23,9 @@ int main(void)
 {
         FuzzLogging::LOG_INFO("=======================NEW PROGRAM START!!!=======================", FuzzLogging::debugfile);
         Config * conf = new Config("../config.gateway");
-        Dmesg * dm = new Dmesg("dmesgout.spi");
+        Dmesg * dm = Dmesg::getInstance();
         dm->readDmesg();
-
-        int status = system("../upCANX can0 100000");
+        dm->upSPIAll();
 
         test::config(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine());
 

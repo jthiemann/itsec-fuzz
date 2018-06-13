@@ -3,14 +3,32 @@
 #include "util.h"
 #include <stdlib.h>
 
+
+
+
+
 class Dmesg
 {
 public:
-    Dmesg(const std::string path);
-    ~Dmesg();
+    static Dmesg* getInstance();
+
     void readDmesg();
 
+    int upSPI(int iface);
+    int downSPI(int iface);
+    int upSPIAll();
+    int downSPIAll();
+
+    int numSPI0_0() {return 0;}
+    int numSPI0_1() {return 1;}
+    int numSPI1_0() {return 2;}
+
+    int getSPIXfromCANX(int iface);
+    int getCANXfromSPIX(int spi);
+
 private:
+    static Dmesg* m_Instance;
+    Dmesg();
     bool loaded;
     int canX[3];
     std::ofstream File;

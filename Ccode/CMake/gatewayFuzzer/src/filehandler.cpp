@@ -3,9 +3,75 @@
 
 using namespace FuzzLogging;
 
-Dmesg::Dmesg(const std::string path)
-{
+Dmesg* Dmesg::m_Instance =0;
 
+
+Dmesg* Dmesg::getInstance()
+{
+    if(m_Instance == 0) Dmesg();
+    return m_Instance;
+}
+
+Dmesg::Dmesg()
+{
+    readDmesg();
+}
+int Dmesg::upSPIAll()
+{
+    int sum = 0;
+    sum += upSPI(0);
+    sum += upSPI(1);
+    sum += upSPI(2);
+    return sum;
+}
+
+int Dmesg::downSPIAll()
+{
+    int sum = 0;
+    sum += downSPI(0);
+    sum += downSPI(1);
+    sum += downSPI(2);
+    return sum;
+}
+
+int Dmesg::downSPI(int iface)
+{
+    std::string cmd = "../downCANX can";
+    int spi = getCANXfromSPIX(iface);
+    cmd += std::to_string(spi);
+
+    return system(cmd.c_str());
+}
+
+int Dmesg::upSPI(int iface)
+{
+    std::string cmd = "../upCANX can";
+    int spi = getCANXfromSPIX(iface);
+    cmd += std::to_string(spi);
+    cmd += " ";
+    if(spi == 2) cmd+= std::to_string(500000); // SPI 1.0
+    else cmd+= std::to_string(100000); // SPI 0.0 oder 0.1
+
+    return system(cmd.c_str());
+}
+
+int Dmesg::getSPIXfromCANX(int iface)
+{
+    if(!loaded) return -1;
+    if(iface == 0) return canX[0];
+    if(iface == 1) return canX[1];
+    if(iface == 2) return canX[2];
+    return -2;
+}
+
+int Dmesg::getCANXfromSPIX(int spi)
+{
+    if(!loaded) return -1;
+    for(int i = 0; i < 3; i++)
+    {
+        if(canX[i] == spi) return i;
+    }
+    return -2;
 }
 
 void Dmesg::readDmesg()
@@ -45,8 +111,8 @@ void Dmesg::readDmesg()
 
       std::ostringstream ss;
       ss << "can0 is on spi 0." << canX[0]<<std::endl;
-      ss << "can0 is on spi 0." << canX[1]<<std::endl;
-      ss << "can0 is on spi 0." << canX[2]<<std::endl;
+      ss << "can1 is on spi 0." << canX[1]<<std::endl;
+      ss << "can2 is on spi 0." << canX[2]<<std::endl;
 
       LOG_INFO(ss, debugfile);
     }
