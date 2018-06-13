@@ -18,6 +18,7 @@ Dmesg* Dmesg::getInstance()
 Dmesg::Dmesg()
 {
     loaded = false;
+    vcan = false;
     readDmesg();
 }
 int Dmesg::upSPIAll()
@@ -27,6 +28,22 @@ int Dmesg::upSPIAll()
     sum += upSPI(1);
     sum += upSPI(2);
     return sum;
+}
+
+
+void Dmesg::setVCAN(bool b)
+{
+    vcan = b;
+}
+
+std::string Dmesg::nameSPI(int spi)
+{
+    std::string cmd;
+    if(vcan) cmd = "vcan";
+    else cmd ="can";
+    int canx = getCANXfromSPIX(spi);
+    if(canx >= 0) return (cmd+=std::to_string(spi));
+    else return "device_not_found";
 }
 
 int Dmesg::downSPIAll()

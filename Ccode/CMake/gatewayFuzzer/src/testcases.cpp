@@ -6,14 +6,14 @@
 #include "Logger.h"
 
 using namespace FuzzLogging;
-int test::config(const char * ifaceCom,const char * ifaceDia,const char * ifaceEng)
+int test::config(const char * iface00,const char * iface01,const char * iface10)
 {
 
     std::ostringstream ss;
 
-    ss <<"\nComfort   is on "<<ifaceCom;
-    ss <<"\nDiagnose  is on "<<ifaceDia;
-    ss <<"\nEngine    is on "<<ifaceEng;
+    ss <<"\nComfort   is on "<<iface00;
+    ss <<"\nDiagnose  is on "<<iface01;
+    ss <<"\nEngine    is on "<<iface10;
     LOG_INFO(ss, debugfile);
 
     /*
