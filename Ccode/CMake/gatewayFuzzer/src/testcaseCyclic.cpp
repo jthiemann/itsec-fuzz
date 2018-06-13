@@ -3,6 +3,9 @@
 #include "util.h"
 #include "testcaseCyclic.h"
 #include "filehandler.h"
+#include "Logger.h"
+
+using namespace FuzzLogging;
 
 int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char * ifaceEng, bool reportOnly)
 {
@@ -10,23 +13,32 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
     {
         bool settled = false;
         char iface_reciever[30];
-        if(i == 0 ) strcpy(iface_reciever,ifaceCom);
-        if(i == 1 ) strcpy(iface_reciever,ifaceDia);
-        if(i == 2 ) strcpy(iface_reciever,ifaceEng);
+        if(i == 0 ) {
+            strcpy(iface_reciever,ifaceCom);
+        }
+        if(i == 1 ) {
+            strcpy(iface_reciever,ifaceDia);
+        }
+        if(i == 2 ) {
+            strcpy(iface_reciever,ifaceEng);
+        }
 
         int TimeFilterSettelms = 20 * 1000; //20 Sekunden
         int TimeFilterLogCycle = 21 * 1000;
 
-        std::cout<<"\n-----\ndynamicInputfilterTest(const char * iface_reciever)\n";
-        std::cout<<"filtered input"<< " to " << iface_reciever<<"\n";
+        LOG_INFO("-----DynamicInputfilterTest(const char * iface_reciever)\n", getChannelNameByNumber(i));
+
+        std::ostringstream ss;
+        ss << "filtered input to" << iface_reciever << std::endl;
+        LOG_INFO(ss, getChannelNameByNumber(i));
+
         canSocket * reciever = new canSocket(iface_reciever);
 
         can_frame response;
 
         dynamicInputfilter * dynfilter = new dynamicInputfilter();
 
-
-        std::cout<<"filter running for 20s....\n";
+        LOG_INFO("filter running for 20s....", getChannelNameByNumber(i));
 
         struct timeval start, temp;
         gettimeofday(&start, 0);
@@ -38,12 +50,12 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
 
             if((time > TimeFilterSettelms) && !settled)
             {
-                std::cout<<"\nFilterSettled?\n..................................................\n";
+                LOG_INFO("FilterSettled?", getChannelNameByNumber(i));
                 settled = true;
             }
             if((time > TimeFilterLogCycle))
             {
-                std::cout<<"\nlogging Cyles done\n..................................................\n";
+                LOG_INFO("logging Cyles done", getChannelNameByNumber(i));
                 break;
             }
 
@@ -62,11 +74,9 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
                 if(!reportOnly)util::printCANframe(response,iface_reciever);
             }
 
-
-
         }
         std::flush(std::cout);
-        std::cout<<dynfilter->getReportRList();
+        LOG_INFO(dynfilter->getReportRList(), getChannelNameByNumber(i));
 
         dynfilter->~dynamicInputfilter();
         //delete reciever;
