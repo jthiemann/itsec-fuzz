@@ -7,6 +7,19 @@ int status = system("../getSPICANX");
 return status;
 }
 
+int util::setupPIN()
+{
+    return system("../setupPin0Output");
+}
+
+int util::setPIN(bool state)
+{
+    std::string cmd;
+    cmd = "../setPin0 ";
+    if(state) cmd+="1";
+    else cmd +="0";
+    return (system(cmd.c_str()));
+}
 
 int util::printCANframe(can_frame frame,const char * iface)
 {

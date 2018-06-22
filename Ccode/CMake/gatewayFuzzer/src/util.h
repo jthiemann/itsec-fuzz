@@ -30,5 +30,10 @@ std::string toHexString(int hex);
 //spi-CANx problem
 int updateDMESG();
 
+//relay wird per Bashskript gesteuert das hier aufgerufen wird
+//Vorteil wiringPI muss nicht mitcompiliert werden
+int setupPIN();
+int setPIN(bool state);
+
 }
 

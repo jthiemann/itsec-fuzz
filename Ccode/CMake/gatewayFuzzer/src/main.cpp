@@ -32,6 +32,12 @@ int main(void)
 
         //test::detectCanDown(conf->NameComfort());
 
+
+
+        util::setupPIN();
+        util::setPIN(true);
+        util::setPIN(false);
+
         //test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");
         //test::Wait4SpezialMsgID(0x01C,"vcan1",50000);
