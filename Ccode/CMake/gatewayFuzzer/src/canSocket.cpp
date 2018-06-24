@@ -1,5 +1,39 @@
 #include "canSocket.h"
+#include "filehandler.h"
+canSocket::canSocket(int spi)
+{
+    Dmesg * dm = Dmesg::getInstance();
+    if((spi >=0) && ( spi <=2))
+    {
+        const char * ifname = dm->nameSPI(spi).c_str();
 
+
+        _ifname = ifname;
+        _spiNumber = spi;
+
+        if((s = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
+                perror("Error while opening socket");
+                error =  -1;
+        }
+
+
+
+        strcpy(ifr.ifr_name, _ifname);
+        ioctl(s, SIOCGIFINDEX, &ifr);
+
+        addr.can_family  = AF_CAN;
+        addr.can_ifindex = ifr.ifr_ifindex;
+
+        printf("%s at index %d\n", _ifname, ifr.ifr_ifindex);
+
+        if(bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+                perror("Error in socket bind");
+                error = -2;
+        }
+
+    }
+
+}
 
 canSocket::canSocket(const char * ifname)
 {       

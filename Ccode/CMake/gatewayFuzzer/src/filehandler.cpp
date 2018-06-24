@@ -39,7 +39,11 @@ void Dmesg::setVCAN(bool b)
 std::string Dmesg::nameSPI(int spi)
 {
     std::string cmd;
-    if(vcan) cmd = "vcan";
+    if(vcan) {
+        cmd = "vcan";
+        cmd += std::to_string(spi);
+        return cmd;
+    }
     else cmd ="can";
     int canx = getCANXfromSPIX(spi);
     if(canx >= 0) return (cmd+=std::to_string(spi));

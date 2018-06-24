@@ -13,6 +13,7 @@ set(SOURCE
    ${SRC_DIR}/filter.cpp
    ${SRC_DIR}/testcases.cpp
    ${SRC_DIR}/testcaseCyclic.cpp
+   ${SRC_DIR}/testcasesTh.cpp
    ${SRC_DIR}/util.cpp
    ${SRC_DIR}/filehandler.cpp
    ${SRC_DIR}/Logger.cpp
@@ -25,7 +26,7 @@ set(INCLUDE_DIRS
    /usr/local/include
 )
 
-#set( CMAKE_CXX_FLAGS "-g -W -Wall -std=c++11 -pthread")
+set( CMAKE_CXX_FLAGS "-g -W -Wall -std=c++11 -pthread")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 

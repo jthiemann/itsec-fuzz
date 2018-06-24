@@ -1,8 +1,13 @@
 #include "util.h"
+//#include "filehandler.h"
+
+#pragma once
 
 class canSocket
 {
 public:
+
+    canSocket(int spi);
     canSocket(const char * ifname);
     bool canSend(int id, int length, char * data, bool extended);
     bool canSendBatch();
@@ -20,5 +25,6 @@ private:
     struct can_frame send_frame;
     struct ifreq ifr;
     const char *_ifname;
+    int _spiNumber;
 };
 

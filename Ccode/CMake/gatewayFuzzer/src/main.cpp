@@ -17,6 +17,7 @@
 #include "testcases.h"
 #include "testcaseCyclic.h"
 #include "filehandler.h"
+#include "testcasesTh.h"
 #include "Logger.h"
 
 int main(void)
@@ -24,19 +25,20 @@ int main(void)
         FuzzLogging::LOG_INFO("=======================NEW PROGRAM START!!!=======================", FuzzLogging::debugfile);
         Dmesg * dm = Dmesg::getInstance();
         dm->readDmesg();
-        dm->upSPIAll();
-        dm->downSPIAll();
-        test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
+        //dm->upSPIAll();
+        //dm->downSPIAll();
+        //test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
         dm->setVCAN(true);
         test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
 
         //test::detectCanDown(conf->NameComfort());
 
-
-
-        util::setupPIN();
-        util::setPIN(true);
-        util::setPIN(false);
+        //th_test::threadedTest();
+        th_test::log2Logger();
+        //util::setupPIN();
+        //util::setPIN(true);
+        //sleep(5);
+        //util::setPIN(false);
 
         //test::Sending("vcan0");
         //test::SendRecievePair("vcan0","vcan1");
