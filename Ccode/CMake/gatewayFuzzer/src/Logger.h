@@ -16,8 +16,9 @@
 namespace FuzzLogging
 {
    // Direct Interface for logging into log file or console using MACRO(s)
-   #define LOG_ERROR(x, LOG_CHANNEL)    Logger::getInstance()->error(x, LOG_CHANNEL)
-   #define LOG_INFO(x, LOG_CHANNEL)     Logger::getInstance()->info(x, LOG_CHANNEL)
+    #define LOG_ERROR(x, LOG_CHANNEL)       Logger::getInstance()->error(x, LOG_CHANNEL)
+    #define LOG_INFO(x, LOG_CHANNEL)        Logger::getInstance()->info(x, LOG_CHANNEL)
+    #define LOG_MESSAGE(x, LOG_CHANNEL)     Logger::getInstance()->message(x, LOG_CHANNEL)
 
    // enum for LOG_LEVEL
    typedef enum LOG_LEVEL
