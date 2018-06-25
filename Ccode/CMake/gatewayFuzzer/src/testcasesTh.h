@@ -35,8 +35,14 @@ public:
     bool hasInterrupt() {return _interrupt;}
 
     bool isFilterStable(int ms);
+    bool isAnythingNew(int ms, bool stopOnFirstNew);
+
+    bool sendStoerung(int id, int number);
+    void sendWaintingGap(int ms) {_time = ms;}
 
 private:
+
+    int _time;
     int _spi;
     bool _interrupt;
     bool _wait;
@@ -63,6 +69,7 @@ void log2LoggerDo(thread_control * control);
 
 int stoertest1();
 int stoertest1Do(thread_control * ctl);
+int stoertest1DoStoerung(thread_control * ctl);
 
 
 

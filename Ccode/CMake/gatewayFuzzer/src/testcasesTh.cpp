@@ -56,6 +56,56 @@ bool thread_control::stopEarly()
     return false;
 }
 
+bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
+{
+    util::easytimer timer;
+    util::easytimer testtime;
+    bool stable = true;
+    can_frame response;
+
+    int i = 0;
+    while(!stopEarly())
+    {
+        i++;
+        if(_socket->canRecieveOne(&response,MSG_DONTWAIT)) timer.reset();
+        else
+        {
+            if((i % 100) == 0){
+                if(timer.XmsPassed(5000))
+                {
+                    LOG_ERROR("no msg from car in 5s",getChannelNameByNumber(getLogNumber()));
+                    this->errorDeadChannel();
+                }
+            }
+            //prevent busy waiting
+            //top %CPU dropped from 95% to 0,7%
+            std::this_thread::sleep_for (std::chrono::milliseconds(1));
+            continue;
+        }
+        if(!_filter->testframe(&response))
+        {
+            LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+            stable = false;
+            if(stopOnFirstNew) return true;
+        }
+        if(testtime.XmsPassed(ms))
+        {
+            //decide
+            if(stable)
+            {
+                LOG_INFO("nothing new", getChannelNameByNumber(getLogNumber()));
+                return false;
+            }
+            else
+            {
+                LOG_INFO("new msg", getChannelNameByNumber(getLogNumber()));
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool thread_control::isFilterStable(int ms)
 {
     util::easytimer timer;
@@ -82,7 +132,6 @@ bool thread_control::isFilterStable(int ms)
             std::this_thread::sleep_for (std::chrono::milliseconds(1));
             continue;
         }
-
         if(!_filter->testframe(&response))
         {
             LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
@@ -106,9 +155,22 @@ bool thread_control::isFilterStable(int ms)
     return false;
 }
 
+bool thread_control::sendStoerung(int id, int number)
+{
+    for(int i=0;i<number;i++)
+    {
+        _socket->canSend(0x7ff,8,("abcdefgh"),false);
+    }
+}
 
 
+int th_test::stoertest1DoStoerung(thread_control *ctl)
+{
+    LOG_INFO("log2Logger-stoer thread", getChannelNameByNumber(ctl->getSPI()));
+    //while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
 
+
+}
 
 int th_test::stoertest1Do(thread_control *ctl)
 {
@@ -117,9 +179,9 @@ int th_test::stoertest1Do(thread_control *ctl)
 
     LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(ctl->getSPI()));
 
-    //canSocket * spi0 = new canSocket(0);
-    //thread_control * ctl = new thread_control(spi0,0);
+    // ToDo set filter default
 
+    //test Filter
     if(!ctl->isFilterStable(2000))
     {
         if(ctl->stopEarly()) goto stop;
@@ -134,6 +196,17 @@ int th_test::stoertest1Do(thread_control *ctl)
             }
         }
     }
+    //List everything that goes through the filter
+
+    if(ctl->isAnythingNew(20000,true))
+    {
+        LOG_INFO("log2Logger new msg detected", getChannelNameByNumber(ctl->getSPI()));
+    }
+    else
+    {
+        LOG_INFO("log2Logger nothing", getChannelNameByNumber(ctl->getSPI()));
+    }
+
     ctl->done();
     LOG_INFO("log2Logger done", getChannelNameByNumber(ctl->getSPI()));
 
@@ -170,15 +243,16 @@ int th_test::stoertest1()
 
     t[0] = std::thread(stoertest1Do,ctl[0]);
     sleep(5);
-    t[1] = std::thread(stoertest1Do,ctl[1]);
-    t[2] = std::thread(stoertest1Do,ctl[2]);
+    //t[1] = std::thread(stoertest1Do,ctl[1]);
+    //t[2] = std::thread(stoertest1Do,ctl[2]);
 
     util::easytimer timer;
 
     int stop = -1;
 
     //overwatch threads 1 minute
-    while (!timer.XmsPassed(1000*60)) {
+    while (!timer.XmsPassed(1000*60))
+    {
         int done = 0;
         for(int i = 0; i < 3; i++)
         {
@@ -201,15 +275,16 @@ int th_test::stoertest1()
 
             }
         }
-    if(done >= 3)
-    {
-        LOG_ERROR("log2Logger-all threads finished", FuzzLogging::debugfile);
-        break;
+        if(done >= 3)
+        {
+            LOG_ERROR("log2Logger-all threads finished", FuzzLogging::debugfile);
+            break;
+        }
+        if(stop!=-1) break;
+        //check once per second
+        std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     }
-    if(stop!=-1) break;
-    //check once per second
-    std::this_thread::sleep_for (std::chrono::milliseconds(1000));
-    }
+    //Stop all other threads after error
     if(stop!=-1)
     {
         for(int i = 0; i < 3; i++)
@@ -222,6 +297,29 @@ int th_test::stoertest1()
     for (int i = 0; i < 3; ++i) {
         t[i].join();
     }
+    //Restart interface and Car if needed
+
+    Dmesg *dm = Dmesg::getInstance();
+
+
+    if(ctl[stop]->getError() == e_deadchannel)
+    {
+        dm->downSPIAll();
+        sleep(2);
+        dm->upSPIAll();
+    }
+
+    if(ctl[stop]->getError() == e_filterunstable)
+    {
+        util::setupPIN();
+        util::setPIN(true);
+        sleep(3); //sekunden pause power off
+        util::setPIN(false);
+        sleep(40); //booting car
+    }
+
+
+
     return stop;
 }
 
