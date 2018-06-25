@@ -101,52 +101,50 @@ void Logger::error(std::ostringstream& stream, LogChannel channel) throw()
    error(text.data(), channel);
 }
 
-// Interface for State Log
-void Logger::state(const char* text, std::ofstream& file) throw()
+// Interface for message Log
+void Logger::message(const char* text, std::ofstream& file) throw()
 {
-   if (m_LogLevel >= 2) {
-       string data;
-       data.append("[STATE]: ");
-       data.append(text);
+    string data;
+    data.append("[MESSAGE]: ");
+    data.append(text);
 
-       logIntoFile(data, file);
-       logOnConsole(data);
-   }
+    logIntoFile(data, file);
 }
 
-void Logger::state(string text, LogChannel channel) throw()
+void Logger::message(string text, LogChannel channel) throw()
 {
-    state(text.data(), channel);
+    message(text.data(), channel);
 }
 
-void Logger::state(const char* text, LogChannel channel) throw()
+void Logger::message(const char* text, LogChannel channel) throw()
 {
    if (channel == 0) {
-       state(text, m_File0);
+       message(text, m_File0);
    } else if (channel == 1) {
-       state(text, m_File1);
+       message(text, m_File1);
    } else if ( channel == 2) {
-       state(text, m_File2);
+       message(text, m_File2);
    } else if (channel == 3){
-       state(text, m_File3);
+       message(text, m_File3);
    }
 }
-void Logger::state(std::ostringstream& stream, LogChannel channel) throw()
+
+void Logger::message(std::ostringstream& stream, LogChannel channel) throw()
 {
    string text = stream.str();
-   state(text.data(), channel);
+   message(text.data(), channel);
 }
 
 // Interface for Info Log
 void Logger::info(const char* text, std::ofstream& file) throw()
 {
-   if (m_LogLevel == 3) {
+   if (m_LogLevel == 2) {
        string data;
        data.append("[INFO]: ");
        data.append(text);
 
        logIntoFile(data, file);
-       /*logOnConsole(data);*/
+       logOnConsole(data);
    }
 
 }

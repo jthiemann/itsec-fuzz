@@ -6,7 +6,12 @@
 #include <sstream>
 #include <string>
 
-
+/****
+ * ERROR and INFO log into file and console
+ * INFO can be turned off by switching the Loglevel to 1 (ERROR only)
+ *
+ * MESSAGE will write into the file regardless of Loglevel, it wont show up on console
+ */
 
 namespace FuzzLogging
 {
@@ -18,8 +23,7 @@ namespace FuzzLogging
    typedef enum LOG_LEVEL
    {
         LOG_LEVEL_ERROR   = 1,
-        LOG_LEVEL_STATE   = 2,
-        LOG_ALL           = 3,
+        LOG_ALL           = 2,
    }LogLevel;
 
     typedef enum LOG_CHANNEL
@@ -42,10 +46,10 @@ namespace FuzzLogging
          void error(std::ostringstream& stream, LogChannel channel) throw();
 
          // Interface for State Log
-         void state(const char* text, std::ofstream& file) throw();
-         void state(const char* text, LogChannel channel) throw();
-         void state(std::string text, LogChannel channel) throw();
-         void state(std::ostringstream& stream, LogChannel channel) throw();
+         void message(const char* text, std::ofstream& file) throw();
+         void message(const char* text, LogChannel channel) throw();
+         void message(std::string text, LogChannel channel) throw();
+         void message(std::ostringstream& stream, LogChannel channel) throw();
 
          // Interface for Info Log
          void info(const char* text, std::ofstream& file) throw();
