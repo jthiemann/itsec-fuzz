@@ -25,7 +25,6 @@ Logger::Logger()
    m_File2.open(file2.c_str(), ios::out|ios::app);
    m_File3.open(debug.c_str(), ios::out|ios::app);
    m_LogLevel	= LOG_ALL;
-   m_LogType	= FILE;
 }
 
 Logger::~Logger()
@@ -48,13 +47,11 @@ Logger* Logger::getInstance() throw ()
 void Logger::logIntoFile(std::string& data, std::ofstream& file)
 {
    file << getCurrentTime() << "  " << data << endl;
-   cout << getCurrentTime() << "  " << data << endl;
-
 }
 
 void Logger::logOnConsole(std::string& data)
 {
-    //TODO: Change or remove "only console" functionality
+    cout << getCurrentTime() << "  " << data << endl;
 }
 
 string Logger::getCurrentTime()
@@ -77,27 +74,13 @@ void Logger::error(const char* text, std::ofstream& file) throw()
    data.append("[ERROR]: ");
    data.append(text);
 
-   if(m_LogType == FILE)
-   {
-      logIntoFile(data, file);
-   }
-   else if(m_LogType == CONSOLE)
-   {
-      logOnConsole(data);
-   }
+   logIntoFile(data, file);
+   logOnConsole(data);
 }
 
 void Logger::error(string text, LogChannel channel) throw()
 {
-    if (channel == 0) {
-        error(text.data(), m_File0);
-    } else if (channel == 1) {
-        error(text.data(), m_File1);
-    } else if ( channel == 2) {
-        error(text.data(), m_File2);
-    } else if (channel == 3){
-        error(text.data(), m_File3);
-    }
+    error(text.data(), channel);
 }
 
 void Logger::error(const char* text, LogChannel channel) throw()
@@ -112,35 +95,64 @@ void Logger::error(const char* text, LogChannel channel) throw()
        error(text, m_File3);
    }
 }
+void Logger::error(std::ostringstream& stream, LogChannel channel) throw()
+{
+   string text = stream.str();
+   error(text.data(), channel);
+}
 
+// Interface for State Log
+void Logger::state(const char* text, std::ofstream& file) throw()
+{
+   if (m_LogLevel >= 2) {
+       string data;
+       data.append("[STATE]: ");
+       data.append(text);
+
+       logIntoFile(data, file);
+       logOnConsole(data);
+   }
+}
+
+void Logger::state(string text, LogChannel channel) throw()
+{
+    state(text.data(), channel);
+}
+
+void Logger::state(const char* text, LogChannel channel) throw()
+{
+   if (channel == 0) {
+       state(text, m_File0);
+   } else if (channel == 1) {
+       state(text, m_File1);
+   } else if ( channel == 2) {
+       state(text, m_File2);
+   } else if (channel == 3){
+       state(text, m_File3);
+   }
+}
+void Logger::state(std::ostringstream& stream, LogChannel channel) throw()
+{
+   string text = stream.str();
+   state(text.data(), channel);
+}
 
 // Interface for Info Log
 void Logger::info(const char* text, std::ofstream& file) throw()
 {
-   string data;
-   data.append("[INFO]: ");
-   data.append(text);
+   if (m_LogLevel == 3) {
+       string data;
+       data.append("[INFO]: ");
+       data.append(text);
 
-   if((m_LogType == FILE) && (m_LogLevel == LOG_ALL))
-   {
-      logIntoFile(data, file);
+       logIntoFile(data, file);
+       /*logOnConsole(data);*/
    }
-   else if((m_LogType == CONSOLE) && (m_LogLevel == LOG_ALL))
-   {
-      logOnConsole(data);
-   }
+
 }
 void Logger::info(string text, LogChannel channel) throw()
 {
-    if (channel == 0) {
-        info(text.data(), m_File0);
-    } else if (channel == 1) {
-        info(text.data(), m_File1);
-    } else if ( channel == 2) {
-        info(text.data(), m_File2);
-    } else if (channel == 3){
-        info(text.data(), m_File3);
-    }
+    info(text.data(), channel);
 }
 
 void Logger::info(const char* text, LogChannel channel) throw()
@@ -160,40 +172,6 @@ void Logger::info(std::ostringstream& stream, LogChannel channel) throw()
 {
    string text = stream.str();
    info(text.data(), channel);
-}
-
-// Interfaces to control log levels
-void Logger::updateLogLevel(LogLevel logLevel)
-{
-   m_LogLevel = logLevel;
-}
-
-// Enable all log levels
-void Logger::enableLog()
-{
-   m_LogLevel = LOG_ALL;
-}
-
-// Disable all log levels, except error and alarm
-void Logger:: disableLog()
-{
-   m_LogLevel = LOG_LEVEL_ERROR;
-}
-
-// Interfaces to control log Types
-void Logger::updateLogType(LogType logType)
-{
-   m_LogType = logType;
-}
-
-void Logger::enableConsoleLogging()
-{
-   m_LogType = CONSOLE;
-}
-
-void Logger::enableFileLogging()
-{
-   m_LogType = FILE;
 }
 
 LogChannel FuzzLogging::getChannelNameByNumber(int channel) {
