@@ -23,7 +23,7 @@ thread_control::~thread_control()
 void thread_control::resetSignal()
 {
     _wait =true;
-    _error = 0;
+    _error = e_noerror;
     _interrupt =false;
 }
 
@@ -44,7 +44,14 @@ int thread_control::getError()
 
 bool thread_control::hasError()
 {
-    if(_error != 0) return true;
+    if(_error != e_noerror) return true;
+    return false;
+}
+
+bool thread_control::stopEarly()
+{
+    if(_error != e_noerror) return true;
+    if(_interrupt) return true;
     return false;
 }
 
@@ -56,7 +63,7 @@ bool thread_control::isFilterStable(int ms)
     can_frame response;
 
     int i = 0;
-    while(!_interrupt)
+    while(!stopEarly())
     {
         i++;
         if(_socket->canRecieveOne(&response,MSG_DONTWAIT)) timer.reset();
@@ -95,7 +102,7 @@ bool thread_control::isFilterStable(int ms)
             }
         }
     }
-    return 0;
+    return false;
 }
 
 
@@ -104,28 +111,43 @@ bool thread_control::isFilterStable(int ms)
 
 int th_test::stoertest1Do(thread_control *ctl)
 {
-    LOG_INFO("log2Logger-stoertest", getChannelNameByNumber(1));
+    LOG_INFO("log2Logger-stoertest", getChannelNameByNumber(ctl->getSPI()));
     //while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
 
-    LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(1));
+    LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(ctl->getSPI()));
 
     //canSocket * spi0 = new canSocket(0);
     //thread_control * ctl = new thread_control(spi0,0);
 
     if(!ctl->isFilterStable(2000))
     {
+        if(ctl->stopEarly()) goto stop;
         if(!ctl->isFilterStable(4000))
         {
+            if(ctl->stopEarly()) goto stop;
             if(!ctl->isFilterStable(8000))
             {
-                LOG_INFO("log2Logger-filter not stablelising", getChannelNameByNumber(1));
+                LOG_INFO("log2Logger-filter not stablelising", getChannelNameByNumber(ctl->getSPI()));
                 ctl->errorFilterUnstable();
+                if(ctl->stopEarly()) goto stop;
             }
         }
     }
-    (!ctl->isFilterStable(10000));
+    ctl->done();
+    LOG_INFO("log2Logger done", getChannelNameByNumber(ctl->getSPI()));
 
-    while(true);
+
+    return 0;
+
+stop:
+
+    if(ctl->hasError())
+    {
+        if(ctl->getError() == e_deadchannel) LOG_ERROR("log2Logger-dead Interface", getChannelNameByNumber(ctl->getSPI()));
+        if(ctl->getError() == e_filterunstable) LOG_ERROR("log2Logger-filter not stablelising", getChannelNameByNumber(ctl->getSPI()));
+        if(ctl->getError() == e_unknown) LOG_ERROR("log2Logger-unknown error", getChannelNameByNumber(ctl->getSPI()));
+    }
+    if(ctl->hasInterrupt()) LOG_INFO("log2Logger was interrupted", getChannelNameByNumber(ctl->getSPI()));
 
     return 0;
 
@@ -146,33 +168,52 @@ int th_test::stoertest1()
     ctl[2] = new thread_control(spi2,2);
 
     t[0] = std::thread(stoertest1Do,ctl[0]);
+    sleep(5);
     t[1] = std::thread(stoertest1Do,ctl[1]);
     t[2] = std::thread(stoertest1Do,ctl[2]);
-
-    std::cout << "Launched from the main\n";
 
     util::easytimer timer;
 
     int stop = -1;
 
     //overwatch threads 1 minute
-    while (timer.XmsPassed(1000*60)) {
-        //check once per second
-        std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+    while (!timer.XmsPassed(1000*60)) {
+        int done = 0;
         for(int i = 0; i < 3; i++)
         {
             if(stop!=-1)
             {
                 break;
             }
-            if(ctl[i]->hasError()) stop = i;
+            if(ctl[i]->stopEarly())
+            {
+                if(ctl[i]->hasError())
+                {
+                    stop = i;
+                    LOG_ERROR("log2Logger-error in thread", FuzzLogging::debugfile);
+                }
+                if(ctl[i]->isDone())
+                {
+
+                    done++;
+                }
+
+            }
         }
+    if(done >= 3)
+    {
+        LOG_ERROR("log2Logger-all threads finished", FuzzLogging::debugfile);
+        break;
+    }
     if(stop!=-1) break;
+    //check once per second
+    std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     }
     if(stop!=-1)
     {
         for(int i = 0; i < 3; i++)
         {
+            LOG_ERROR("log2Logger-interupting", FuzzLogging::debugfile);
             ctl[i]->interrupt();
         }
     }

@@ -23,6 +23,7 @@ public:
     void done() {_done= true;}
     void errorDeadChannel();
     void errorFilterUnstable();
+    bool stopEarly();
 
     canSocket * getSocket() { return _socket; }
     int getSPI() { return _spi;}

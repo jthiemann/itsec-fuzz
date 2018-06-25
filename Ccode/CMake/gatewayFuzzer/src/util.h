@@ -18,7 +18,7 @@
 #pragma once
 
 enum blockby {once,allways,list,cyclic,update};
-enum errors {e_deadchannel, e_filterunstable, e_unknown};
+enum errors {e_noerror,e_deadchannel, e_filterunstable, e_unknown};
 
 namespace util {
 
