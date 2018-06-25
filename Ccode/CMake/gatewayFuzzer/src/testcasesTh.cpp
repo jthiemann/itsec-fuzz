@@ -52,6 +52,7 @@ bool thread_control::stopEarly()
 {
     if(_error != e_noerror) return true;
     if(_interrupt) return true;
+    if(_done) return true;
     return false;
 }
 
