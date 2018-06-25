@@ -33,6 +33,8 @@ canSocket::canSocket(int spi)
 
     }
 
+    freq = 0;
+
 }
 
 canSocket::canSocket(const char * ifname)
@@ -58,6 +60,8 @@ canSocket::canSocket(const char * ifname)
                 perror("Error in socket bind");
                 error = -2;
         }
+
+        freq = 0;
 
 }
 bool canSocket::canSend(int id, int length, char *data, bool extended)
@@ -132,9 +136,13 @@ bool canSocket::canRecieveWait4ExpectedMSG(can_frame input_frame, can_frame * ou
 
 bool canSocket::canRecieveOne(can_frame * frame, int flags)
 {
+    gettimeofday(&last, 0);
+    struct timeval temp;
     int rbytes = recv(s,frame, sizeof(struct can_frame),flags);
     if(rbytes > 0)
     {
+        gettimeofday(&temp, 0);
+        freq = ((temp.tv_usec - last.tv_usec)/1000)+((temp.tv_sec - last.tv_sec)*1000);
         return true;
     }
     if(rbytes == -1)

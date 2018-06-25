@@ -15,6 +15,8 @@ public:
     bool canRecieveWait4ExpectedMSG(can_frame input_frame, can_frame * outputframe);
     bool canRecieveOne(can_frame * frame, int flags);
 
+    int getFrequency() {return freq;}
+
 private:
 
     int s;
@@ -26,5 +28,8 @@ private:
     struct ifreq ifr;
     const char *_ifname;
     int _spiNumber;
+    int freq;
+    struct timeval last;
+
 };
 

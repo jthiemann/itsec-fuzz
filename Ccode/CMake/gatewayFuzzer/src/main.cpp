@@ -34,7 +34,10 @@ int main(void)
         //test::detectCanDown(conf->NameComfort());
 
         //th_test::threadedTest();
-        th_test::log2Logger();
+        //th_test::log2Logger();
+
+        th_test::stoertest1();
+
         //util::setupPIN();
         //util::setPIN(true);
         //sleep(5);

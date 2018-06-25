@@ -9,6 +9,8 @@
 
 #define arraylenght 0x7ff
 
+#pragma once
+
 namespace match {
 bool id(can_frame * frame, int id);
 int check(void);

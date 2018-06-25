@@ -20,6 +20,18 @@ int util::setPIN(bool state)
     else cmd +="0";
     return (system(cmd.c_str()));
 }
+std::string util::stdCANframe(can_frame frame)
+{
+    char buffer[64];
+    sprintf(buffer,"\n 0x%03X [%X]",frame.can_id, frame.can_dlc);
+    for(int i= 0; i < frame.can_dlc;i++)
+    {
+        sprintf(buffer," %X",frame.data[i]);
+    }
+    printf(".\n");
+    std::string out(buffer,strlen(buffer));
+    return out;
+}
 
 int util::printCANframe(can_frame frame,const char * iface)
 {
@@ -52,3 +64,26 @@ void util::deepcopyCANframe(can_frame src, can_frame dest)
         dest.data[i] = src.data[i];
     }
 }
+
+util::easytimer::easytimer()
+{
+    reset();
+}
+
+void util::easytimer::reset()
+{
+    gettimeofday(&lasttime, 0);
+}
+
+int util::easytimer::timePassedms()
+{
+    gettimeofday(&temp, 0);
+    return ((temp.tv_usec - lasttime.tv_usec)/1000)+((temp.tv_sec - lasttime.tv_sec)*1000);
+}
+
+bool util::easytimer::XmsPassed(int ms)
+{
+    if(ms <= timePassedms()) return true;
+    return false;
+}
+
