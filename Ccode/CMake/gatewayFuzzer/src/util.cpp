@@ -63,6 +63,13 @@ std::string util::toHexString(int hex)
     return out;
 }
 
+std::string util::charToHexString(uint8_t hex)
+{
+    char buffer[20];
+    sprintf(buffer,"%X",hex);
+    std::string out(buffer,strlen(buffer));
+    return out;
+}
 
 
 void util::deepcopyCANframe(can_frame src, can_frame dest)

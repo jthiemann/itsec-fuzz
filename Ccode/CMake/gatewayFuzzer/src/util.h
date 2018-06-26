@@ -29,7 +29,7 @@ std::string stdCANframe(can_frame frame);
 void deepcopyCANframe(can_frame src, can_frame dest);
 
 std::string toHexString(int hex);
-
+std::string charToHexString(uint8_t hex);
 //spi-CANx problem
 int updateDMESG();
 

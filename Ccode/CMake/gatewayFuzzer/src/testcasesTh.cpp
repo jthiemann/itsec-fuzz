@@ -188,6 +188,26 @@ bool thread_control::sendStoerung(int id, int number)
     return true;
 }
 
+bool thread_control::generateCANMessages(int id, int amount, int timeout)
+{
+    int paketamount = amount;
+    int min = 0;
+    int max = 255;
+    char data[8];
+    for (int x = 8; x > 0; x--) {
+        paketamount = paketamount / 2;
+        for (int y = 0; y < paketamount; y++) {
+            for (int z = 0; z < x; z++) {
+                data[z] = min + (rand() % static_cast<int>(max - min + 1));
+
+                if(stopEarly()) return false;
+                _socket->canSend(id, z+1, data, false);
+                sleep(timeout);
+            }
+        }
+    }
+    return true;
+}
 
 int th_test::stoertest1DoStoerung(thread_control *ctl)
 {

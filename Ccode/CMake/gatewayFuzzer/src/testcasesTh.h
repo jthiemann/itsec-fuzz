@@ -42,6 +42,7 @@ public:
     bool isAnythingNew(int ms, bool stopOnFirstNew);
 
     bool sendStoerung(int id, int number);
+    bool generateCANMessages(int id, int amount, int timeout);
     void sendWaintingGap(int ms) {_time = ms;}
 
     void filterBlockIdOnSender();
