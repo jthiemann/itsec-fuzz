@@ -114,3 +114,109 @@ Tue Jun 26 14:39:02 2018  [debugfile ]  [ERROR]: upSPI failed
 Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: upSPI
 Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: 2
 Tue Jun 26 14:39:02 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 17:27:59 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:27:59 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:27:59 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:27:59 2018  [debugfile ]  [INFO]: 
+Comfort   is on device_not_found
+Diagnose  is on device_not_found
+Engine    is on device_not_found
+Tue Jun 26 17:29:36 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:29:36 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:29:36 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:29:36 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 17:33:03 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:33:03 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:03 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:03 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 17:33:06 2018  [debugfile ]  [MESSAGE]:  123# FF 
+Tue Jun 26 17:33:29 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:33:29 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:29 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:29 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 17:33:32 2018  [debugfile ]  [MESSAGE]:  123# FF 
+Tue Jun 26 17:33:42 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:33:42 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:42 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:33:42 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 17:33:45 2018  [debugfile ]  [MESSAGE]:  123# FF 
+Tue Jun 26 17:34:31 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 17:34:31 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:34:31 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 17:34:31 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 17:34:33 2018  [debugfile ]  [INFO]:  123# FF 
+Tue Jun 26 18:13:43 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 18:13:43 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:13:43 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:13:43 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: log2Logger-error in thread
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: 0
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: 1
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 18:13:49 2018  [debugfile ]  [INFO]: 2
+Tue Jun 26 18:13:49 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: 0
+Tue Jun 26 18:13:51 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: 1
+Tue Jun 26 18:13:51 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 18:13:51 2018  [debugfile ]  [INFO]: 2
+Tue Jun 26 18:13:51 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 18:15:33 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 18:15:33 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:15:33 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:15:33 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 18:16:00 2018  [debugfile ]  [ERROR]: log2Logger-all threads finished
+Tue Jun 26 18:16:36 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 18:16:36 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:16:36 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:16:36 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 18:17:28 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 18:17:28 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:17:28 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:17:28 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 18:17:44 2018  [debugfile ]  [ERROR]: log2Logger-all threads finished
+Tue Jun 26 18:18:22 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 18:18:22 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:18:22 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 18:18:22 2018  [debugfile ]  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 18:18:38 2018  [debugfile ]  [ERROR]: log2Logger-all threads finished

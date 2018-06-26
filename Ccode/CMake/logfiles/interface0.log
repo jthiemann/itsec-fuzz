@@ -59,3 +59,32 @@ Tue Jun 26 14:38:54 2018  [interface0]  [INFO]: log2Logger-stoertest
 Tue Jun 26 14:38:54 2018  [interface0]  [INFO]: log2Logger-filter stable?
 Tue Jun 26 14:38:59 2018  [interface0]  [ERROR]: no msg from car in 5s
 Tue Jun 26 14:38:59 2018  [interface0]  [ERROR]: log2Logger-dead Interface
+Tue Jun 26 18:13:43 2018  [interface0]  [INFO]: log2Logger-stoertest
+Tue Jun 26 18:13:43 2018  [interface0]  [INFO]: log2Logger-filter stable?
+Tue Jun 26 18:13:48 2018  [interface0]  [ERROR]: no msg from car in 5s
+Tue Jun 26 18:13:48 2018  [interface0]  [ERROR]: log2Logger-dead Interface
+Tue Jun 26 18:15:33 2018  [interface0]  [INFO]: log2Logger-stoertest
+Tue Jun 26 18:15:33 2018  [interface0]  [INFO]: log2Logger-filter stable?
+Tue Jun 26 18:15:33 2018  [interface0]  [MESSAGE]:  123# FF 
+Tue Jun 26 18:15:35 2018  [interface0]  [INFO]: filter-unstable
+Tue Jun 26 18:15:39 2018  [interface0]  [INFO]: filter-stable
+Tue Jun 26 18:15:59 2018  [interface0]  [INFO]: nothing new
+Tue Jun 26 18:15:59 2018  [interface0]  [INFO]: log2Logger nothing
+Tue Jun 26 18:15:59 2018  [interface0]  [INFO]: log2Logger done
+Tue Jun 26 18:16:36 2018  [interface0]  [INFO]: log2Logger-stoertest
+Tue Jun 26 18:17:28 2018  [interface0]  [INFO]: log2Logger-stoertest
+Tue Jun 26 18:17:28 2018  [interface0]  [INFO]: log2Logger-filter stable?
+Tue Jun 26 18:17:28 2018  [interface0]  [MESSAGE]:  123# FF 
+Tue Jun 26 18:17:30 2018  [interface0]  [INFO]: filter-unstable
+Tue Jun 26 18:17:34 2018  [interface0]  [INFO]: filter-stable
+Tue Jun 26 18:17:35 2018  [interface0]  [MESSAGE]:  7B# 0 
+Tue Jun 26 18:17:35 2018  [interface0]  [INFO]: log2Logger new msg detected
+Tue Jun 26 18:17:35 2018  [interface0]  [INFO]: log2Logger done
+Tue Jun 26 18:18:22 2018  [interface0]  [INFO]: log2Logger-stoertest
+Tue Jun 26 18:18:22 2018  [interface0]  [INFO]: log2Logger-filter stable?
+Tue Jun 26 18:18:22 2018  [interface0]  [MESSAGE]:  123# FF 
+Tue Jun 26 18:18:24 2018  [interface0]  [INFO]: filter-unstable
+Tue Jun 26 18:18:28 2018  [interface0]  [INFO]: filter-stable
+Tue Jun 26 18:18:29 2018  [interface0]  [MESSAGE]:  7B# 0 
+Tue Jun 26 18:18:29 2018  [interface0]  [INFO]: log2Logger new msg detected
+Tue Jun 26 18:18:29 2018  [interface0]  [INFO]: log2Logger done
