@@ -28,7 +28,7 @@ int main(void)
         //dm->upSPIAll();
         //dm->downSPIAll();
         //test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
-        //dm->setVCAN(true);
+        dm->setVCAN(true);
         test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
 
         //test::detectCanDown(conf->NameComfort());
@@ -38,6 +38,8 @@ int main(void)
 
 
         th_test::stoertest1(123,2);
+        th_test::stoertest1(124,2);
+        th_test::stoertest1(123,1);
 
         //util::setupPIN();
         //util::setPIN(true);

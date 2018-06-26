@@ -14,6 +14,7 @@ thread_control::thread_control(canSocket * socket, int spi, int id, int spiStoer
     _filter = new dynamicInputfilter();
     _idStoer = id;
     _spiStoer = spiStoer;
+    _detected = 0;
     resetSignal();
 }
 
@@ -62,7 +63,11 @@ bool thread_control::stopEarly()
 
 void thread_control::filterBlockIdOnSender()
 {
-    if(_spi == _spiStoer) _filter->setblockby(_idStoer,allways);
+    if(_spi == _spiStoer)
+    {
+        _filter->setblockby(_idStoer,allways);
+        LOG_INFO("stoer id blocked", getChannelNameByNumber(getLogNumber()));
+    }
 }
 
 bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
@@ -95,6 +100,7 @@ bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
         {
             LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
             stable = false;
+            _detected++;
             if(stopOnFirstNew) return true;
         }
         if(testtime.XmsPassed(ms))
@@ -176,7 +182,7 @@ bool thread_control::sendStoerung(int id, int number)
         {
             if(stopEarly()) return false;
             _socket->canSend(id,i+1,data,false);
-            sleep(1);
+            usleep(1000*100);
         }
     }
     return true;
@@ -189,13 +195,13 @@ int th_test::stoertest1DoStoerung(thread_control *ctl)
     while((ctl->isWaiting()) && !ctl->hasInterrupt()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
     LOG_INFO("log2Logger-stoer thread start", getChannelNameByNumber(ctl->getSPI()));
 
-    if(ctl->sendStoerung(ctl->getID(),200))
+    if(ctl->sendStoerung(ctl->getID(),10))
     {
-        LOG_INFO("log2Logger sending stoped eary", getChannelNameByNumber(ctl->getSPI()));
+        LOG_INFO("log2Logger sending finished", getChannelNameByNumber(ctl->getSPI()));
     }
     else
     {
-        LOG_INFO("log2Logger sending finished", getChannelNameByNumber(ctl->getSPI()));
+        LOG_INFO("log2Logger sending stoped early", getChannelNameByNumber(ctl->getSPI()));
     }
 
     ctl->done();
@@ -213,7 +219,7 @@ int th_test::stoertest1Do(thread_control *ctl)
 
     // ToDo set filter default
     ctl->_filter->setStaticBlockList(ctl->getSPI());
-
+    ctl->filterBlockIdOnSender();
     //test Filter
     if(!ctl->isFilterStable(2000))
     {
@@ -231,7 +237,7 @@ int th_test::stoertest1Do(thread_control *ctl)
     }
     //List everything that goes through the filter
 
-    if(ctl->isAnythingNew(20000,true))
+    if(ctl->isAnythingNew(60*3*1000,true))  //max 3 min will usually be stoped by stoerthread
     {
         LOG_INFO("log2Logger new msg detected", getChannelNameByNumber(ctl->getSPI()));
     }
@@ -310,15 +316,20 @@ int th_test::stoertest1(int id, int spiStoerung)
                 }
                 if(ctl[i]->isDone())
                 {
-
                     done++;
                 }
 
             }
         }
+        //finish all listeners after stoerthread
+        if(ctl[3]->isDone()) for(int j = 0 ; j < tc; j++) ctl[j]->interrupt();
+        if(done >= (tc -1))
+        {
+            for(int j = 0 ; j < tc; j++) ctl[j]->interrupt();
+        }
         if(done >= tc)
         {
-            LOG_ERROR("log2Logger-all threads finished", FuzzLogging::debugfile);
+            LOG_INFO("log2Logger-all threads finished", FuzzLogging::debugfile);
             break;
         }
         if(stop!=-1) break;
@@ -359,6 +370,20 @@ int th_test::stoertest1(int id, int spiStoerung)
         sleep(40); //booting car
     }
 
+    if((stop != -1) && ctl[stop]->hasError());
+    else
+    {
+        std::string out = "spi"+std::to_string(spiStoerung)+" <- 0x"+std::to_string(id)+ " | ";
+        for (int i = 0; i < 3 ; ++i) out += std::to_string(ctl[i]->getDetected()) + " : ";
+        LOG_INFO(out,FuzzLogging::resultfile);
+    }
+
+    delete spi0;
+    delete spi1;
+    delete spi2;
+    delete spiSend;
+
+    for (int i = 0; i < tc ; ++i) delete ctl[i];
 
     return stop;
 }
@@ -404,6 +429,7 @@ void th_test::threadedTest()
     for (int i = 0; i < 3; ++i) {
         t[i].join();
     }
+
 
 
 }

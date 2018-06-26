@@ -27,7 +27,7 @@ public:
     bool isStable() {return _isStable;}
     int getID() {return _idStoer;}
     int getSpiStoer() {return _spiStoer;}
-
+    int getDetected() {return _detected;}
 
     canSocket * getSocket() { return _socket; }
     int getSPI() { return _spi;}
@@ -57,6 +57,7 @@ private:
     bool _wait;
     bool _done;
     int _error;
+    int _detected;
     canSocket * _socket;
 
 // informationen über den test
@@ -82,6 +83,7 @@ void log2Logger();
 void log2LoggerDo(thread_control * control);
 
 int stoertest1(int id, int spiStoerung);
+int stoertest1Loop(int startID, int stopID);
 int stoertest1Do(thread_control * ctl);
 int stoertest1DoStoerung(thread_control * ctl);
 
