@@ -1,0 +1,22 @@
+Thu May 24 03:32:02 2018  [INFO]: DynamicInputfilterTest(const char * iface_reciever)
+Thu May 24 03:32:02 2018  [INFO]: filtered input to can2
+
+Thu May 24 03:32:02 2018  [INFO]: filter running for 20s....
+Thu May 24 03:32:22 2018  [INFO]: FilterSettled?
+Thu May 24 03:32:23 2018  [INFO]: logging Cyles done
+Thu May 24 03:32:23 2018  [INFO]: Report for dynamic filter
+-----------------------------------------
+ID	TOTAL	UPDATE
+0x320	1050	1050
+0x390	210	1
+0x420	105	1
+0x51A	42	42
+0x520	105	105
+0x570	210	3
+0x5D0	210	1
+0x5D2	105	105
+0x5DC	210	1
+0x5E0	1050	1
+0x7D0	21	21
+-----------------------------------------
+

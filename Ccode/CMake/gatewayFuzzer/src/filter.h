@@ -58,12 +58,47 @@ public:
 
     bool testframe(can_frame *frame);
     void setblockby(int id,int blocktype);
+    void setStaticBlockList(int spi);
     std::string getReportStatistic();
     std::string getReportRList();
 
 private:
     idmetrik ** _array;//[arraylenght];
     //std::vector<idmetrik *> _array[arraylenght];
+
+
+    //static blocklists
+
+    int can0CycleIds[6] =
+    {0x531,
+    0x571,
+    0x621,
+    0x65D,
+    0x65F,
+    0x00};
+
+    int can1CycleIds[6] =
+    {0x531,
+    0x571,
+    0x621,
+    0x65D,
+    0x65F,
+    0x00};
+
+    int can2CycleIds[6] =
+    {0x320,
+    0x51A,
+    0x520,
+    0x570,
+    0x5D2,
+    0x7D0};
+
+
+
+
+
 };
+
+
 
 

@@ -22,14 +22,19 @@ int util::setPIN(bool state)
 }
 std::string util::stdCANframe(can_frame frame)
 {
-    char buffer[64];
-    sprintf(buffer,"\n 0x%03X [%X]",frame.can_id, frame.can_dlc);
+
+
+    char buffer[1];
+    std::string out = "0x ";
     for(int i= 0; i < frame.can_dlc;i++)
     {
         sprintf(buffer," %X",frame.data[i]);
+        std::string std(buffer,strlen(buffer));
+        out += std +" ";
     }
-    printf(".\n");
-    std::string out(buffer,strlen(buffer));
+
+
+
     return out;
 }
 

@@ -1,0 +1,87 @@
+Thu May 24 03:31:20 2018  [INFO]: =======================NEW PROGRAM START!!!=======================
+Thu May 24 03:31:20 2018  [INFO]: 
+can0 is on spi 0.1
+can1 is on spi 0.0
+can2 is on spi 0.2
+
+Thu May 24 03:31:20 2018  [INFO]: 
+can0 is on spi 0.1
+can1 is on spi 0.0
+can2 is on spi 0.2
+
+Thu May 24 03:31:20 2018  [INFO]: 
+Comfort   is on can0
+Diagnose  is on can1
+Engine    is on can2
+Tue Jun 26 13:27:41 2018  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 13:27:41 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:27:41 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:27:41 2018  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 13:32:50 2018  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 13:32:50 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:32:50 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:32:50 2018  [INFO]: 
+Comfort   is on vcan0
+Diagnose  is on vcan1
+Engine    is on vcan2
+Tue Jun 26 13:32:56 2018  [ERROR]: log2Logger-error in thread
+Tue Jun 26 13:32:56 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 13:32:56 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 13:32:56 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 13:32:56 2018  [INFO]: downSPI
+Tue Jun 26 13:32:56 2018  [INFO]: 0
+Tue Jun 26 13:32:56 2018  [ERROR]: downSPI failed
+Tue Jun 26 13:32:56 2018  [INFO]: downSPI
+Tue Jun 26 13:32:56 2018  [INFO]: 1
+Tue Jun 26 13:32:56 2018  [ERROR]: downSPI failed
+Tue Jun 26 13:32:56 2018  [INFO]: downSPI
+Tue Jun 26 13:32:56 2018  [INFO]: 2
+Tue Jun 26 13:32:56 2018  [ERROR]: downSPI failed
+Tue Jun 26 13:32:58 2018  [INFO]: upSPI
+Tue Jun 26 13:32:58 2018  [INFO]: 0
+Tue Jun 26 13:32:58 2018  [ERROR]: upSPI failed
+Tue Jun 26 13:32:58 2018  [INFO]: upSPI
+Tue Jun 26 13:32:58 2018  [INFO]: 1
+Tue Jun 26 13:32:58 2018  [ERROR]: upSPI failed
+Tue Jun 26 13:32:58 2018  [INFO]: upSPI
+Tue Jun 26 13:32:58 2018  [INFO]: 2
+Tue Jun 26 13:32:58 2018  [ERROR]: upSPI failed
+Tue Jun 26 13:52:50 2018  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 13:52:50 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:52:50 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 13:52:50 2018  [INFO]: 
+Comfort   is on device_not_found
+Diagnose  is on device_not_found
+Engine    is on device_not_found
+Tue Jun 26 14:12:08 2018  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 14:12:08 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 14:12:08 2018  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 14:12:08 2018  [INFO]: 
+Comfort   is on device_not_found
+Diagnose  is on device_not_found
+Engine    is on device_not_found
+Tue Jun 26 14:12:14 2018  [ERROR]: log2Logger-error in thread
+Tue Jun 26 14:12:14 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:12:14 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:12:14 2018  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:12:14 2018  [INFO]: downSPI
+Tue Jun 26 14:12:14 2018  [INFO]: 0
+Tue Jun 26 14:12:14 2018  [ERROR]: downSPI failed
+Tue Jun 26 14:12:14 2018  [INFO]: downSPI
+Tue Jun 26 14:12:14 2018  [INFO]: 1
+Tue Jun 26 14:12:14 2018  [ERROR]: downSPI failed
+Tue Jun 26 14:12:14 2018  [INFO]: downSPI
+Tue Jun 26 14:12:14 2018  [INFO]: 2
+Tue Jun 26 14:12:14 2018  [ERROR]: downSPI failed
+Tue Jun 26 14:12:16 2018  [INFO]: upSPI
+Tue Jun 26 14:12:16 2018  [INFO]: 0
+Tue Jun 26 14:12:16 2018  [ERROR]: upSPI failed
+Tue Jun 26 14:12:16 2018  [INFO]: upSPI
+Tue Jun 26 14:12:16 2018  [INFO]: 1
+Tue Jun 26 14:12:16 2018  [ERROR]: upSPI failed
+Tue Jun 26 14:12:16 2018  [INFO]: upSPI
+Tue Jun 26 14:12:16 2018  [INFO]: 2
+Tue Jun 26 14:12:16 2018  [ERROR]: upSPI failed

@@ -1,0 +1,57 @@
+Thu May 24 03:31:20 2018  [INFO]: DynamicInputfilterTest(const char * iface_reciever)
+Thu May 24 03:31:20 2018  [INFO]: filtered input to can0
+
+Thu May 24 03:31:20 2018  [INFO]: filter running for 20s....
+Thu May 24 03:31:40 2018  [INFO]: FilterSettled?
+Thu May 24 03:31:41 2018  [INFO]: logging Cyles done
+Thu May 24 03:31:41 2018  [INFO]: Report for dynamic filter
+-----------------------------------------
+ID	TOTAL	UPDATE
+0x359	210	1
+0x35B	210	1
+0x373	210	1
+0x3E1	210	1
+0x3E3	26	1
+0x400	113	1
+0x401	113	1
+0x40B	113	1
+0x40C	113	1
+0x457	210	1
+0x470	420	1
+0x527	105	1
+0x531	420	420
+0x571	42	3
+0x575	105	1
+0x591	105	1
+0x5D1	105	1
+0x5DD	210	1
+0x60E	21	1
+0x621	210	43
+0x62F	105	1
+0x631	21	1
+0x635	105	1
+0x651	42	1
+0x653	42	1
+0x655	42	1
+0x65D	21	21
+0x65F	105	105
+0x661	21	1
+0x665	21	1
+-----------------------------------------
+
+Tue Jun 26 13:27:41 2018  [INFO]: log2Logger-stoertest
+Tue Jun 26 13:27:41 2018  [INFO]: log2Logger-filter stable?
+Tue Jun 26 13:27:47 2018  [ERROR]: no msg from car in 5s
+Tue Jun 26 13:27:47 2018  [ERROR]: log2Logger-dead Interface
+Tue Jun 26 13:32:50 2018  [INFO]: log2Logger-stoertest
+Tue Jun 26 13:32:50 2018  [INFO]: log2Logger-filter stable?
+Tue Jun 26 13:32:55 2018  [ERROR]: no msg from car in 5s
+Tue Jun 26 13:32:55 2018  [ERROR]: log2Logger-dead Interface
+Tue Jun 26 13:52:50 2018  [INFO]: DynamicInputfilterTest(const char * iface_reciever)
+Tue Jun 26 13:52:50 2018  [INFO]: filtered input to device_not_found
+
+Tue Jun 26 13:52:50 2018  [INFO]: filter running for 20s....
+Tue Jun 26 14:12:08 2018  [INFO]: log2Logger-stoertest
+Tue Jun 26 14:12:08 2018  [INFO]: log2Logger-filter stable?
+Tue Jun 26 14:12:13 2018  [ERROR]: no msg from car in 5s
+Tue Jun 26 14:12:13 2018  [ERROR]: log2Logger-dead Interface

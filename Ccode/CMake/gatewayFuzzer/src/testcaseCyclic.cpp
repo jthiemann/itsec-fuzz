@@ -23,8 +23,8 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
             strcpy(iface_reciever,ifaceEng);
         }
 
-        int TimeFilterSettelms = 20 * 100; //20 Sekunden
-        int TimeFilterLogCycle = 21 * 100;
+        int TimeFilterSettelms = 20 * 1000; //20 Sekunden
+        int TimeFilterLogCycle = 21 * 1000;
 
         LOG_INFO("DynamicInputfilterTest(const char * iface_reciever)", getChannelNameByNumber(i));
 
@@ -37,6 +37,7 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
         can_frame response;
 
         dynamicInputfilter * dynfilter = new dynamicInputfilter();
+        dynfilter->setStaticBlockList(i);
 
         LOG_INFO("filter running for 20s....", getChannelNameByNumber(i));
 

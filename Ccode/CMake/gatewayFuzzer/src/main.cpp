@@ -28,22 +28,13 @@ int main(void)
         //dm->upSPIAll();
         //dm->downSPIAll();
         //test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
-        dm->setVCAN(true);
+        //dm->setVCAN(true);
         test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
 
         //test::detectCanDown(conf->NameComfort());
 
         //th_test::threadedTest();
         //th_test::log2Logger();
-
-        //dynamicInputfilter * f1 = new dynamicInputfilter();
-        //dynamicInputfilter * f2 = new dynamicInputfilter();
-        //dynamicInputfilter * f3 = new dynamicInputfilter();
-        //dynamicInputfilter * f4 = new dynamicInputfilter();
-        //dynamicInputfilter * f1a = new dynamicInputfilter();
-        //dynamicInputfilter * f2a = new dynamicInputfilter();
-        //dynamicInputfilter * f3a = new dynamicInputfilter();
-        //dynamicInputfilter * f4a = new dynamicInputfilter();
 
 
         th_test::stoertest1();

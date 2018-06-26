@@ -12,7 +12,6 @@ thread_control::thread_control(canSocket * socket,int spi)
     _socket = socket;
     _spi = spi;
     _filter = new dynamicInputfilter();
-    _filter2 = new dynamicInputfilter();
     resetSignal();
 }
 
@@ -86,7 +85,7 @@ bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
         }
         if(!_filter->testframe(&response))
         {
-            LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+            LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
             stable = false;
             if(stopOnFirstNew) return true;
         }
@@ -136,7 +135,7 @@ bool thread_control::isFilterStable(int ms)
         }
         if(!_filter->testframe(&response))
         {
-            LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+            LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
             stable = false;
         }
         if(testtime.XmsPassed(ms))
@@ -202,7 +201,7 @@ int th_test::stoertest1Do(thread_control *ctl)
     LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(ctl->getSPI()));
 
     // ToDo set filter default
-
+    ctl->_filter->setStaticBlockList(ctl->getSPI());
     //test Filter
     if(!ctl->isFilterStable(2000))
     {
@@ -251,7 +250,7 @@ stop:
 
 int th_test::stoertest1()
 {
-    int tc = 4;
+    int tc = 3;
     std::thread t[tc];
     thread_control * ctl[tc];
 
@@ -271,7 +270,7 @@ int th_test::stoertest1()
     t[1] = std::thread(stoertest1Do,ctl[1]);
     t[2] = std::thread(stoertest1Do,ctl[2]);
 
-    t[3] = std::thread(stoertest1DoStoerung,ctl[3]);
+    //t[3] = std::thread(stoertest1DoStoerung,ctl[3]);
 
     util::easytimer timer;
 

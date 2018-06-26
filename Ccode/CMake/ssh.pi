@@ -1,0 +1,1 @@
+ssh -o PubkeyAuthentication=no pi@192.168.0.99

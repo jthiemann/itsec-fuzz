@@ -40,6 +40,8 @@ public:
     bool sendStoerung(int id, int number);
     void sendWaintingGap(int ms) {_time = ms;}
 
+    dynamicInputfilter * _filter;
+
 private:
 
     int _time;
@@ -49,8 +51,7 @@ private:
     bool _done;
     int _error;
     canSocket * _socket;
-    dynamicInputfilter * _filter;
-    dynamicInputfilter * _filter2;
+
 
 
 
