@@ -24,19 +24,19 @@ std::string util::stdCANframe(can_frame frame)
 {
 
 
-    char buffer2[2];
-    char buffer[1];
-    std::string out = "0x ";
+    char buffer2[4];
+    char buffer[4];
+    std::string out = "";
 
     sprintf(buffer2," %X",frame.can_id);
     std::string id(buffer2,strlen(buffer2));
-    out += id +" 0x";
+    out += id +"#";
 
     for(int i= 0; i < frame.can_dlc;i++)
     {
         sprintf(buffer," %X",frame.data[i]);
         std::string std(buffer,strlen(buffer));
-        out += std +":";
+        out += std +" ";
     }
 
 

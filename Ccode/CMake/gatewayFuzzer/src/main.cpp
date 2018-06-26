@@ -37,7 +37,7 @@ int main(void)
         //th_test::log2Logger();
 
 
-        th_test::stoertest1();
+        th_test::stoertest1(123,2);
 
         //util::setupPIN();
         //util::setPIN(true);
@@ -49,7 +49,7 @@ int main(void)
         //test::Wait4SpezialMsgID(0x01C,"vcan1",50000);
         //test::SendAndWait4AllMsgID("can0","can1");
         //test::dynamicInputfilterTest(conf->NameComfort());
-        //test::dynamicInputfilterTest("vcan0");
+        //test::dynamicInputfilterTest(dm->nameSPI1_0().c_str());
 
         //util::updateDMESG();
 

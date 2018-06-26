@@ -14,7 +14,7 @@ class thread_control
 {
 public:
 
-    thread_control(canSocket *socket, int spi);
+    thread_control(canSocket *socket, int spi, int id, int spiStoer);
     ~thread_control();
     void resetSignal();
     void start() {_wait = false;}
@@ -24,6 +24,10 @@ public:
     void errorDeadChannel();
     void errorFilterUnstable();
     bool stopEarly();
+    bool isStable() {return _isStable;}
+    int getID() {return _idStoer;}
+    int getSpiStoer() {return _spiStoer;}
+
 
     canSocket * getSocket() { return _socket; }
     int getSPI() { return _spi;}
@@ -40,10 +44,13 @@ public:
     bool sendStoerung(int id, int number);
     void sendWaintingGap(int ms) {_time = ms;}
 
+    void filterBlockIdOnSender();
+
     dynamicInputfilter * _filter;
 
 private:
 
+    bool _isStable;
     int _time;
     int _spi;
     bool _interrupt;
@@ -51,6 +58,11 @@ private:
     bool _done;
     int _error;
     canSocket * _socket;
+
+// informationen über den test
+
+    int _idStoer;
+    int _spiStoer;
 
 
 
@@ -69,7 +81,7 @@ void testLOG(canSocket * Socket, int spi);
 void log2Logger();
 void log2LoggerDo(thread_control * control);
 
-int stoertest1();
+int stoertest1(int id, int spiStoerung);
 int stoertest1Do(thread_control * ctl);
 int stoertest1DoStoerung(thread_control * ctl);
 

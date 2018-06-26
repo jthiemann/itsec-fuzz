@@ -61,17 +61,19 @@ int test::dynamicInputfilterTest(const char * iface_reciever)
 
     dynamicInputfilter * dynfilter = new dynamicInputfilter();
 
-    dynfilter->setblockby(0x531,allways);
-    dynfilter->setblockby(0x65f,allways);
-    dynfilter->setblockby(0x621,allways);
-    dynfilter->setblockby(0x575,allways);
-    dynfilter->setblockby(0x571,allways);
-    dynfilter->setblockby(0x65D,allways);
+    //dynfilter->setblockby(0x531,allways);
+    //dynfilter->setblockby(0x65f,allways);
+    //dynfilter->setblockby(0x621,allways);
+    //dynfilter->setblockby(0x575,allways);
+    //dynfilter->setblockby(0x571,allways);
+    //dynfilter->setblockby(0x65D,allways);
+    //
+    //dynfilter->setblockby(0x520,allways);
+    //dynfilter->setblockby(0x570,allways);
+    //dynfilter->setblockby(0x5D2,allways);
+    //dynfilter->setblockby(0x320,allways);
 
-    dynfilter->setblockby(0x520,allways);
-    dynfilter->setblockby(0x570,allways);
-    dynfilter->setblockby(0x5D2,allways);
-    dynfilter->setblockby(0x320,allways);
+    dynfilter->setStaticBlockList(2);
 
     while(true)
     {
@@ -86,7 +88,8 @@ int test::dynamicInputfilterTest(const char * iface_reciever)
 
         if(!dynfilter->testframe(&response))
         {
-            util::printCANframe(response,iface_reciever);
+            LOG_INFO(util::stdCANframe(response), FuzzLogging::debugfile);
+            //util::printCANframe(response,iface_reciever);
         }
     }
 

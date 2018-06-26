@@ -1,4 +1,3 @@
-
 #include "filter.h"
 
 
@@ -72,8 +71,8 @@ void dynamicInputfilter::setStaticBlockList(int spi)
     for(int i = 0; i < 6; i++)
     {
         if(spi == 0) setblockby(this->can0CycleIds[i],allways);
-        if(spi == 1) setblockby(this->can0CycleIds[i],allways);
-        if(spi == 2) setblockby(this->can0CycleIds[i],allways);
+        if(spi == 1) setblockby(this->can1CycleIds[i],allways);
+        if(spi == 2) setblockby(this->can2CycleIds[i],allways);
     }
 
 }

@@ -7,11 +7,13 @@
 
 using namespace FuzzLogging;
 
-thread_control::thread_control(canSocket * socket,int spi)
+thread_control::thread_control(canSocket * socket, int spi, int id, int spiStoer)
 {
     _socket = socket;
     _spi = spi;
     _filter = new dynamicInputfilter();
+    _idStoer = id;
+    _spiStoer = spiStoer;
     resetSignal();
 }
 
@@ -26,6 +28,7 @@ void thread_control::resetSignal()
     _error = e_noerror;
     _interrupt =false;
     _done = false;
+    _isStable = false;
 }
 
 void thread_control::errorDeadChannel()
@@ -55,6 +58,11 @@ bool thread_control::stopEarly()
     if(_interrupt) return true;
     if(_done) return true;
     return false;
+}
+
+void thread_control::filterBlockIdOnSender()
+{
+    if(_spi == _spiStoer) _filter->setblockby(_idStoer,allways);
 }
 
 bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
@@ -144,6 +152,7 @@ bool thread_control::isFilterStable(int ms)
             if(stable)
             {
                 LOG_INFO("filter-stable", getChannelNameByNumber(getLogNumber()));
+                _isStable  =true;
                 return true;
             }
             else
@@ -176,9 +185,11 @@ bool thread_control::sendStoerung(int id, int number)
 
 int th_test::stoertest1DoStoerung(thread_control *ctl)
 {
-    LOG_INFO("log2Logger-stoer thread", getChannelNameByNumber(ctl->getSPI()));
-    //while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
-    if(ctl->sendStoerung(123,10))
+    LOG_INFO("log2Logger-stoer thread waitign for stable", getChannelNameByNumber(ctl->getSPI()));
+    while((ctl->isWaiting()) && !ctl->hasInterrupt()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
+    LOG_INFO("log2Logger-stoer thread start", getChannelNameByNumber(ctl->getSPI()));
+
+    if(ctl->sendStoerung(ctl->getID(),200))
     {
         LOG_INFO("log2Logger sending stoped eary", getChannelNameByNumber(ctl->getSPI()));
     }
@@ -202,6 +213,7 @@ int th_test::stoertest1Do(thread_control *ctl)
 
     // ToDo set filter default
     ctl->_filter->setStaticBlockList(ctl->getSPI());
+
     //test Filter
     if(!ctl->isFilterStable(2000))
     {
@@ -248,29 +260,29 @@ stop:
 
 }
 
-int th_test::stoertest1()
+int th_test::stoertest1(int id, int spiStoerung)
 {
-    int tc = 3;
+    int tc = 4;
     std::thread t[tc];
     thread_control * ctl[tc];
 
     canSocket * spi0 = new canSocket(0);
     canSocket * spi1 = new canSocket(1);
     canSocket * spi2 = new canSocket(2);
-    canSocket * spi2send = new canSocket(2);
+    canSocket * spiSend = new canSocket(spiStoerung);
 
-    ctl[0] = new thread_control(spi0,0);
-    ctl[1] = new thread_control(spi1,1);
-    ctl[2] = new thread_control(spi2,2);
+    ctl[0] = new thread_control(spi0,0,id,spiStoerung);
+    ctl[1] = new thread_control(spi1,1,id,spiStoerung);
+    ctl[2] = new thread_control(spi2,2,id,spiStoerung);
 
-    ctl[3] = new thread_control(spi2send,2);
+    ctl[3] = new thread_control(spiSend,2,id,spiStoerung);
 
     t[0] = std::thread(stoertest1Do,ctl[0]);
     //sleep(5);
     t[1] = std::thread(stoertest1Do,ctl[1]);
     t[2] = std::thread(stoertest1Do,ctl[2]);
 
-    //t[3] = std::thread(stoertest1DoStoerung,ctl[3]);
+    t[3] = std::thread(stoertest1DoStoerung,ctl[3]);
 
     util::easytimer timer;
 
@@ -280,12 +292,15 @@ int th_test::stoertest1()
     while (!timer.XmsPassed(1000*60))
     {
         int done = 0;
+        int stable = 0;
         for(int i = 0; i < tc; i++)
         {
             if(stop!=-1)
             {
                 break;
             }
+            if(ctl[i]->isStable()) stable ++;
+            if(stable == 3) ctl[3]->start();
             if(ctl[i]->stopEarly())
             {
                 if(ctl[i]->hasError())
@@ -345,82 +360,9 @@ int th_test::stoertest1()
     }
 
 
-
     return stop;
 }
 
-
-
-
-
-
-void th_test::log2LoggerDo(thread_control *control)
-{
-    LOG_INFO("log2Logger-waiting", getChannelNameByNumber(control->getLogNumber()));
-    while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
-
-    LOG_INFO("log2Logger-listening", getChannelNameByNumber(control->getLogNumber()));
-
-    int t = 0;
-    std::ostringstream ss;
-    while (true)
-    {
-        ss << " spi: " << control->getSPI() << " uptime:  " << t << "\n";
-        LOG_INFO(ss, getChannelNameByNumber(control->getSPI()));
-        ss.str("");
-        ss.clear();
-        sleep(1);
-        if(control->hasInterrupt())
-        {
-            LOG_INFO("log2Logger-interupted", getChannelNameByNumber(control->getLogNumber()));
-            break;
-        }
-        t++;
-    }
-
-    LOG_INFO("log2Logger-done", getChannelNameByNumber(control->getLogNumber()));
-
-}
-
-void th_test::log2Logger()
-{
-    std::thread t[3];
-
-    thread_control * ctl[3];
-
-    canSocket * spi0 = new canSocket(0);
-    canSocket * spi1 = new canSocket(1);
-    canSocket * spi2 = new canSocket(2);
-
-    ctl[0] = new thread_control(spi0,0);
-    ctl[1] = new thread_control(spi1,1);
-    ctl[2] = new thread_control(spi2,2);
-
-    t[0] = std::thread(log2LoggerDo,ctl[0]);
-    t[1] = std::thread(log2LoggerDo,ctl[1]);
-    t[2] = std::thread(log2LoggerDo,ctl[2]);
-
-    std::cout << "Launched from the main\n";
-
-    ctl[0]->start();
-    sleep(5);
-    ctl[1]->start();
-    sleep(5);
-    ctl[2]->start();
-    sleep(10);
-    ctl[0]->interrupt();
-    sleep(10);
-    ctl[1]->error();
-    sleep(5);
-    if(ctl[1]->hasError());
-    ctl[1]->interrupt();
-    ctl[2]->interrupt();
-
-    //Join the threads with the main thread
-    for (int i = 0; i < 3; ++i) {
-        t[i].join();
-    }
-}
 
 void th_test::testLOG(canSocket * Socket, int spi)
 {
