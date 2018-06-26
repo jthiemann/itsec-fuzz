@@ -33,6 +33,7 @@ namespace FuzzLogging
         interface1        = 1,
         interface2        = 2,
         debugfile         = 3,
+        resultfile        = 4,
     }LogChannel;
 
    class Logger
@@ -41,19 +42,19 @@ namespace FuzzLogging
          static Logger* getInstance() throw ();
 
          // Interface for Error Log
-         void error(const char* text, std::ofstream& file) throw();
+         void error(const char* text, std::ofstream& file, LogChannel channel) throw();
          void error(const char* text, LogChannel channel) throw();
          void error(std::string text, LogChannel channel) throw();
          void error(std::ostringstream& stream, LogChannel channel) throw();
 
          // Interface for State Log
-         void message(const char* text, std::ofstream& file) throw();
+         void message(const char* text, std::ofstream& file, LogChannel channel) throw();
          void message(const char* text, LogChannel channel) throw();
          void message(std::string text, LogChannel channel) throw();
          void message(std::ostringstream& stream, LogChannel channel) throw();
 
          // Interface for Info Log
-         void info(const char* text, std::ofstream& file) throw();
+         void info(const char* text, std::ofstream& file, LogChannel channel) throw();
          void info(const char* text, LogChannel channel) throw();
          void info(std::string text, LogChannel channel) throw();
          void info(std::ostringstream& stream, LogChannel channel) throw();
@@ -74,11 +75,13 @@ namespace FuzzLogging
          std::ofstream           m_File1;
          std::ofstream           m_File2;
          std::ofstream           m_File3;
+         std::ofstream           m_File4;
 
          LogLevel                m_LogLevel;
    };
 
    LogChannel getChannelNameByNumber(int channel);
+   static char* toString(LogChannel channel);
 
 } // End of namespace
 
