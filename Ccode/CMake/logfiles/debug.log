@@ -85,3 +85,32 @@ Tue Jun 26 14:12:16 2018  [ERROR]: upSPI failed
 Tue Jun 26 14:12:16 2018  [INFO]: upSPI
 Tue Jun 26 14:12:16 2018  [INFO]: 2
 Tue Jun 26 14:12:16 2018  [ERROR]: upSPI failed
+Tue Jun 26 14:38:54 2018  [debugfile ]  [INFO]: =======================NEW PROGRAM START!!!=======================
+Tue Jun 26 14:38:54 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 14:38:54 2018  [debugfile ]  [ERROR]: Unable to Dmesg outputfile open file
+Tue Jun 26 14:38:54 2018  [debugfile ]  [INFO]: 
+Comfort   is on device_not_found
+Diagnose  is on device_not_found
+Engine    is on device_not_found
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: log2Logger-error in thread
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: log2Logger-interupting
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: 0
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: 1
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: downSPI
+Tue Jun 26 14:39:00 2018  [debugfile ]  [INFO]: 2
+Tue Jun 26 14:39:00 2018  [debugfile ]  [ERROR]: downSPI failed
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: 0
+Tue Jun 26 14:39:02 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: 1
+Tue Jun 26 14:39:02 2018  [debugfile ]  [ERROR]: upSPI failed
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: upSPI
+Tue Jun 26 14:39:02 2018  [debugfile ]  [INFO]: 2
+Tue Jun 26 14:39:02 2018  [debugfile ]  [ERROR]: upSPI failed

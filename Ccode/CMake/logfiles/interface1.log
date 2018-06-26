@@ -53,3 +53,7 @@ Tue Jun 26 14:12:08 2018  [INFO]: log2Logger-stoertest
 Tue Jun 26 14:12:08 2018  [INFO]: log2Logger-filter stable?
 Tue Jun 26 14:12:13 2018  [ERROR]: no msg from car in 5s
 Tue Jun 26 14:12:13 2018  [ERROR]: log2Logger-dead Interface
+Tue Jun 26 14:38:54 2018  [interface1]  [INFO]: log2Logger-stoertest
+Tue Jun 26 14:38:54 2018  [interface1]  [INFO]: log2Logger-filter stable?
+Tue Jun 26 14:38:59 2018  [interface1]  [ERROR]: no msg from car in 5s
+Tue Jun 26 14:38:59 2018  [interface1]  [ERROR]: log2Logger-dead Interface
