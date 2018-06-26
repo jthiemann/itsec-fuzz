@@ -36,6 +36,16 @@ int main(void)
         //th_test::threadedTest();
         //th_test::log2Logger();
 
+        //dynamicInputfilter * f1 = new dynamicInputfilter();
+        //dynamicInputfilter * f2 = new dynamicInputfilter();
+        //dynamicInputfilter * f3 = new dynamicInputfilter();
+        //dynamicInputfilter * f4 = new dynamicInputfilter();
+        //dynamicInputfilter * f1a = new dynamicInputfilter();
+        //dynamicInputfilter * f2a = new dynamicInputfilter();
+        //dynamicInputfilter * f3a = new dynamicInputfilter();
+        //dynamicInputfilter * f4a = new dynamicInputfilter();
+
+
         th_test::stoertest1();
 
         //util::setupPIN();
@@ -52,5 +62,5 @@ int main(void)
 
         //util::updateDMESG();
 
-        //test::findCyclesLog(conf->NameComfort(),conf->NameDiagnose(),conf->NameEngine(),true);
+        //test::findCyclesLog(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str(),true);
 }

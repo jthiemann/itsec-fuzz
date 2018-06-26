@@ -15,6 +15,7 @@ int match::check(void)
 
 dynamicInputfilter::dynamicInputfilter()
 {
+    _array =  new idmetrik*[arraylenght];
     idmetrik * dummy = new idmetrik(0);
 
     for(int i = 0; i <0x800; i++)
@@ -32,6 +33,7 @@ dynamicInputfilter::~dynamicInputfilter()
         if(elem->getid() != 0) elem->~idmetrik();
     }
     _array[0]->~idmetrik();
+    //delete _array;
 }
 
 bool dynamicInputfilter::testframe(can_frame *frame)

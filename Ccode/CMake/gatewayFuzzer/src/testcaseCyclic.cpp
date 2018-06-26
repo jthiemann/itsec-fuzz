@@ -23,8 +23,8 @@ int test::findCyclesLog(const char * ifaceCom,const char * ifaceDia,const char *
             strcpy(iface_reciever,ifaceEng);
         }
 
-        int TimeFilterSettelms = 20 * 1000; //20 Sekunden
-        int TimeFilterLogCycle = 21 * 1000;
+        int TimeFilterSettelms = 20 * 100; //20 Sekunden
+        int TimeFilterLogCycle = 21 * 100;
 
         LOG_INFO("DynamicInputfilterTest(const char * iface_reciever)", getChannelNameByNumber(i));
 

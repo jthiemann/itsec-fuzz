@@ -7,7 +7,9 @@
 #include <sys/time.h>
 #include "util.h"
 
-#define arraylenght 0x7ff
+#include <vector>
+
+#define arraylenght 0x800
 
 #pragma once
 
@@ -60,7 +62,8 @@ public:
     std::string getReportRList();
 
 private:
-    idmetrik *_array[arraylenght];
+    idmetrik ** _array;//[arraylenght];
+    //std::vector<idmetrik *> _array[arraylenght];
 };
 
 

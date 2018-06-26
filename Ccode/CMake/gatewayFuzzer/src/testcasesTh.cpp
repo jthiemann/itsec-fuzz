@@ -12,6 +12,7 @@ thread_control::thread_control(canSocket * socket,int spi)
     _socket = socket;
     _spi = spi;
     _filter = new dynamicInputfilter();
+    _filter2 = new dynamicInputfilter();
     resetSignal();
 }
 
@@ -25,6 +26,7 @@ void thread_control::resetSignal()
     _wait =true;
     _error = e_noerror;
     _interrupt =false;
+    _done = false;
 }
 
 void thread_control::errorDeadChannel()
@@ -157,10 +159,19 @@ bool thread_control::isFilterStable(int ms)
 
 bool thread_control::sendStoerung(int id, int number)
 {
-    for(int i=0;i<number;i++)
+    int perDLC = number / 8;
+    char data[8];
+    for(int x=0;x<8;x++)data[x] = x;
+    for(int i=0;i<8;i++)
     {
-        _socket->canSend(0x7ff,8,("abcdefgh"),false);
+        for(int j = 0; j<perDLC; j++)
+        {
+            if(stopEarly()) return false;
+            _socket->canSend(id,i+1,data,false);
+            sleep(1);
+        }
     }
+    return true;
 }
 
 
@@ -168,7 +179,18 @@ int th_test::stoertest1DoStoerung(thread_control *ctl)
 {
     LOG_INFO("log2Logger-stoer thread", getChannelNameByNumber(ctl->getSPI()));
     //while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
+    if(ctl->sendStoerung(123,10))
+    {
+        LOG_INFO("log2Logger sending stoped eary", getChannelNameByNumber(ctl->getSPI()));
+    }
+    else
+    {
+        LOG_INFO("log2Logger sending finished", getChannelNameByNumber(ctl->getSPI()));
+    }
 
+    ctl->done();
+
+    return 0;
 
 }
 
@@ -229,22 +251,27 @@ stop:
 
 int th_test::stoertest1()
 {
-    std::thread t[3];
-
-    thread_control * ctl[3];
+    int tc = 4;
+    std::thread t[tc];
+    thread_control * ctl[tc];
 
     canSocket * spi0 = new canSocket(0);
     canSocket * spi1 = new canSocket(1);
     canSocket * spi2 = new canSocket(2);
+    canSocket * spi2send = new canSocket(2);
 
     ctl[0] = new thread_control(spi0,0);
     ctl[1] = new thread_control(spi1,1);
     ctl[2] = new thread_control(spi2,2);
 
+    ctl[3] = new thread_control(spi2send,2);
+
     t[0] = std::thread(stoertest1Do,ctl[0]);
-    sleep(5);
-    //t[1] = std::thread(stoertest1Do,ctl[1]);
-    //t[2] = std::thread(stoertest1Do,ctl[2]);
+    //sleep(5);
+    t[1] = std::thread(stoertest1Do,ctl[1]);
+    t[2] = std::thread(stoertest1Do,ctl[2]);
+
+    t[3] = std::thread(stoertest1DoStoerung,ctl[3]);
 
     util::easytimer timer;
 
@@ -254,7 +281,7 @@ int th_test::stoertest1()
     while (!timer.XmsPassed(1000*60))
     {
         int done = 0;
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < tc; i++)
         {
             if(stop!=-1)
             {
@@ -275,7 +302,7 @@ int th_test::stoertest1()
 
             }
         }
-        if(done >= 3)
+        if(done >= tc)
         {
             LOG_ERROR("log2Logger-all threads finished", FuzzLogging::debugfile);
             break;
@@ -287,14 +314,14 @@ int th_test::stoertest1()
     //Stop all other threads after error
     if(stop!=-1)
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < tc; i++)
         {
             LOG_ERROR("log2Logger-interupting", FuzzLogging::debugfile);
             ctl[i]->interrupt();
         }
     }
     //Join the threads with the main thread
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < tc; ++i) {
         t[i].join();
     }
     //Restart interface and Car if needed

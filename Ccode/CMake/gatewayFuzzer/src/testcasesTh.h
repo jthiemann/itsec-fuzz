@@ -50,6 +50,7 @@ private:
     int _error;
     canSocket * _socket;
     dynamicInputfilter * _filter;
+    dynamicInputfilter * _filter2;
 
 
 

@@ -26,7 +26,9 @@ set(INCLUDE_DIRS
    /usr/local/include
 )
 
-set( CMAKE_CXX_FLAGS "-g -W -Wall -std=c++11 -pthread")
+#set( CMAKE_CXX_FLAGS "-g -W -Wall -std=c++11 -pthread")
+
+set( CMAKE_CXX_FLAGS "-pthread")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
