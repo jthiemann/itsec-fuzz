@@ -83,8 +83,8 @@ void testLOG(canSocket * Socket, int spi);
 void log2Logger();
 void log2LoggerDo(thread_control * control);
 
-int stoertest1(int id, int spiStoerung);
-void stoertest1Loop(int startID, int stopID,int spi);
+int stoertest1(int id, int spiStoerung, canSocket *spi0, canSocket *spi1, canSocket *spi2, canSocket *spiSend);
+void stoertest1Loop(int startID, int stopID, int spiStoerung);
 int stoertest1Do(thread_control * ctl);
 int stoertest1DoStoerung(thread_control * ctl);
 

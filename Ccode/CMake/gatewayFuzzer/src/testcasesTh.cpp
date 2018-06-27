@@ -220,7 +220,7 @@ bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 
             std::string datass = "send data: ";
             for(int i = 0; i < x; i++) datass += util::charToHexString(data[i]);
-            //LOG_INFO(datass, getChannelNameByNumber(getSPI()));
+            LOG_MESSAGE(datass, FuzzLogging::debugfile);
         }
         return true;
     }
@@ -303,16 +303,11 @@ stop:
 
 }
 
-int th_test::stoertest1(int id, int spiStoerung)
+int th_test::stoertest1(int id, int spiStoerung, canSocket * spi0,canSocket * spi1,canSocket * spi2,canSocket * spiSend)
 {
     int tc = 4;
     std::thread t[tc];
     thread_control * ctl[tc];
-
-    canSocket * spi0 = new canSocket(0);
-    canSocket * spi1 = new canSocket(1);
-    canSocket * spi2 = new canSocket(2);
-    canSocket * spiSend = new canSocket(spiStoerung);
 
     ctl[0] = new thread_control(spi0,0,id,spiStoerung);
     ctl[1] = new thread_control(spi1,1,id,spiStoerung);
@@ -407,7 +402,13 @@ int th_test::stoertest1(int id, int spiStoerung)
         sleep(40); //booting car
     }
 
-    if((stop != -1) && ctl[stop]->hasError());
+    if((stop != -1) && ctl[stop]->hasError())
+    {
+        std::string out = "spi"+std::to_string(spiStoerung)+" <- 0x"+util::toHexString(id)+ " | ";
+        for (int i = 0; i < 3 ; ++i) out += std::to_string(ctl[i]->getDetected()) + " : ";
+        out += "had error";
+        LOG_INFO(out,FuzzLogging::debugfile);
+    }
     else
     {
         std::string out = "spi"+std::to_string(spiStoerung)+" <- 0x"+util::toHexString(id)+ " | ";
@@ -415,23 +416,28 @@ int th_test::stoertest1(int id, int spiStoerung)
         LOG_INFO(out,FuzzLogging::resultfile);
     }
 
-    delete spi0;
-    delete spi1;
-    delete spi2;
-    delete spiSend;
-
     for (int i = 0; i < tc ; ++i) delete ctl[i];
 
     if(stop != -1) return -1;
     return 0;
 }
 
-void th_test::stoertest1Loop(int startID, int stopID,int spi)
+void th_test::stoertest1Loop(int startID, int stopID,int spiStoerung)
 {
+    canSocket * spi0 = new canSocket(0);
+    canSocket * spi1 = new canSocket(1);
+    canSocket * spi2 = new canSocket(2);
+    canSocket * spiSend = new canSocket(spiStoerung);
+
     for(int i = startID; i <= stopID; i++)
     {
-        stoertest1(i,spi);
+        if(stoertest1(i,spiStoerung,spi0,spi1,spi2,spiSend) != 0) i--;
     }
+
+    delete spi0;
+    delete spi1;
+    delete spi2;
+    delete spiSend;
 }
 
 
