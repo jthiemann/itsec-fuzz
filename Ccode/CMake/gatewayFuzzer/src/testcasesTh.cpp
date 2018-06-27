@@ -171,24 +171,38 @@ bool thread_control::isFilterStable(int ms)
     return false;
 }
 
-bool thread_control::sendStoerung(int id, int number)
+bool thread_control::sendStoerung(int id, int number, int timeout_ms)
 {
-    int perDLC = number / 8;
+    int lenght = 9;
+    int min = 0;
+    int max = 255;
     char data[8];
-    for(int x=0;x<8;x++)data[x] = x;
-    for(int i=0;i<8;i++)
+    int minNumber = 10;
+    while(number != 0)
     {
-        for(int j = 0; j<perDLC; j++)
+        number = number /2;
+        if(number > 10) minNumber = number;
+        lenght--;
+        //LOG_INFO(std::to_string(number), getChannelNameByNumber(getSPI()));
+        for(int t = 0; t < minNumber; t++)
         {
+            for (int z = 0; z < lenght; z++) {
+                data[z] = min + (rand() % static_cast<int>(max - min + 1));
+            }
             if(stopEarly()) return false;
-            _socket->canSend(id,i+1,data,false);
-            usleep(1000*100);
+            _socket->canSend(id, lenght, data, false);
+            usleep(timeout_ms*1000);
+
+            //std::string datass = "send data: ";
+            //for(int i = 0; i < lenght; i++) datass += util::charToHexString(data[i]);
+            //LOG_INFO(datass, getChannelNameByNumber(getSPI()));
         }
+        lenght = 9;
     }
     return true;
 }
 
-bool thread_control::generateCANMessages(int id, int amount, int timeout)
+bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 {
     int paketamount = amount;
     int min = 0;
@@ -198,24 +212,27 @@ bool thread_control::generateCANMessages(int id, int amount, int timeout)
         paketamount = paketamount / 2;
         for (int y = 0; y < paketamount; y++) {
             for (int z = 0; z < x; z++) {
-                data[z] = min + (rand() % static_cast<int>(max - min + 1));
-
-                if(stopEarly()) return false;
-                _socket->canSend(id, z+1, data, false);
-                sleep(timeout);
+                data[z] = min + (rand() % static_cast<int>(max - min + 1));                                
             }
-        }
-    }
-    return true;
-}
+            if(stopEarly()) return false;
+            _socket->canSend(id, x, data, false);
+            usleep(timeout_ms*1000);
 
+            std::string datass = "send data: ";
+            for(int i = 0; i < x; i++) datass += util::charToHexString(data[i]);
+            //LOG_INFO(datass, getChannelNameByNumber(getSPI()));
+        }
+        return true;
+    }
+}
 int th_test::stoertest1DoStoerung(thread_control *ctl)
 {
     LOG_INFO("log2Logger-stoer thread waitign for stable", getChannelNameByNumber(ctl->getSPI()));
     while((ctl->isWaiting()) && !ctl->hasInterrupt()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
     LOG_INFO("log2Logger-stoer thread start", getChannelNameByNumber(ctl->getSPI()));
 
-    if(ctl->sendStoerung(ctl->getID(),10))
+    if(ctl->sendStoerung(ctl->getID(),500,60))
+    //if(ctl->generateCANMessages(ctl->getID(),10,1000))
     {
         LOG_INFO("log2Logger sending finished", getChannelNameByNumber(ctl->getSPI()));
     }
@@ -393,7 +410,7 @@ int th_test::stoertest1(int id, int spiStoerung)
     if((stop != -1) && ctl[stop]->hasError());
     else
     {
-        std::string out = "spi"+std::to_string(spiStoerung)+" <- 0x"+std::to_string(id)+ " | ";
+        std::string out = "spi"+std::to_string(spiStoerung)+" <- 0x"+util::toHexString(id)+ " | ";
         for (int i = 0; i < 3 ; ++i) out += std::to_string(ctl[i]->getDetected()) + " : ";
         LOG_INFO(out,FuzzLogging::resultfile);
     }
@@ -405,7 +422,16 @@ int th_test::stoertest1(int id, int spiStoerung)
 
     for (int i = 0; i < tc ; ++i) delete ctl[i];
 
-    return stop;
+    if(stop != -1) return -1;
+    return 0;
+}
+
+void th_test::stoertest1Loop(int startID, int stopID,int spi)
+{
+    for(int i = startID; i <= stopID; i++)
+    {
+        stoertest1(i,spi);
+    }
 }
 
 

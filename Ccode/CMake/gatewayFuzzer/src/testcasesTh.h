@@ -41,8 +41,8 @@ public:
     bool isFilterStable(int ms);
     bool isAnythingNew(int ms, bool stopOnFirstNew);
 
-    bool sendStoerung(int id, int number);
-    bool generateCANMessages(int id, int amount, int timeout);
+    bool sendStoerung(int id, int number, int timeout_ms);
+    bool generateCANMessages(int id, int amount, int timeout_ms);
     void sendWaintingGap(int ms) {_time = ms;}
 
     void filterBlockIdOnSender();
@@ -84,7 +84,7 @@ void log2Logger();
 void log2LoggerDo(thread_control * control);
 
 int stoertest1(int id, int spiStoerung);
-int stoertest1Loop(int startID, int stopID);
+void stoertest1Loop(int startID, int stopID,int spi);
 int stoertest1Do(thread_control * ctl);
 int stoertest1DoStoerung(thread_control * ctl);
 

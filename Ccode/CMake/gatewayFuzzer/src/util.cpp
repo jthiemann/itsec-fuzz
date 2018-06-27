@@ -58,7 +58,7 @@ int util::printCANframe(can_frame frame,const char * iface)
 std::string util::toHexString(int hex)
 {
     char buffer[20];
-    sprintf(buffer,"0x%X",hex);
+    sprintf(buffer,"0x%02X",hex);
     std::string out(buffer,strlen(buffer));
     return out;
 }
@@ -66,7 +66,7 @@ std::string util::toHexString(int hex)
 std::string util::charToHexString(uint8_t hex)
 {
     char buffer[20];
-    sprintf(buffer,"%X",hex);
+    sprintf(buffer,"%02X",hex);
     std::string out(buffer,strlen(buffer));
     return out;
 }

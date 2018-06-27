@@ -28,7 +28,7 @@ int main(void)
         //dm->upSPIAll();
         //dm->downSPIAll();
         //test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
-        dm->setVCAN(true);
+        //dm->setVCAN(true);
         test::config(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str());
 
         //test::detectCanDown(conf->NameComfort());
@@ -36,10 +36,14 @@ int main(void)
         //th_test::threadedTest();
         //th_test::log2Logger();
 
+        //FuzzLogging::LOG_INFO("usleep", FuzzLogging::debugfile);
+        //for(int i = 1; i <=10; i++)
+        //{
+        //    FuzzLogging::LOG_INFO(std::to_string(i), FuzzLogging::debugfile);
+        //    usleep(1000*1000);
+        //}
 
-        th_test::stoertest1(123,2);
-        th_test::stoertest1(124,2);
-        th_test::stoertest1(123,1);
+        th_test::stoertest1Loop(0x200,0x7FF,2);
 
         //util::setupPIN();
         //util::setPIN(true);
