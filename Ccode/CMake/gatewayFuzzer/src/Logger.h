@@ -34,6 +34,7 @@ namespace FuzzLogging
         interface2        = 2,
         debugfile         = 3,
         resultfile        = 4,
+        inputmsgfile      = 5,
     }LogChannel;
 
    class Logger
@@ -76,6 +77,7 @@ namespace FuzzLogging
          std::ofstream           m_File2;
          std::ofstream           m_File3;
          std::ofstream           m_File4;
+         std::ofstream           m_File5;
 
          LogLevel                m_LogLevel;
    };

@@ -16,16 +16,18 @@ const string path = "";
 const string file0 = "../logfiles/interface0.log";
 const string file1 = "../logfiles/interface1.log";
 const string file2 = "../logfiles/interface2.log";
-const string debug = "../logfiles/debug.log";
-const string results = "../logfiles/results.log";
+const string file3 = "../logfiles/debug.log";
+const string file4 = "../logfiles/results.log";
+const string file5 = "../logfiles/inputmsg.log";
 
 Logger::Logger()
 {
    m_File0.open(file0.c_str(), ios::out|ios::app);
    m_File1.open(file1.c_str(), ios::out|ios::app);
    m_File2.open(file2.c_str(), ios::out|ios::app);
-   m_File3.open(debug.c_str(), ios::out|ios::app);
-   m_File4.open(results.c_str(), ios::out|ios::app);
+   m_File3.open(file3.c_str(), ios::out|ios::app);
+   m_File4.open(file4.c_str(), ios::out|ios::app);
+   m_File5.open(file5.c_str(), ios::out|ios::app);
    m_LogLevel	= LOG_ALL;
 }
 
@@ -36,6 +38,7 @@ Logger::~Logger()
    m_File2.close();
    m_File3.close();
    m_File4.close();
+   m_File5.close();
 }
 
 Logger* Logger::getInstance() throw ()
@@ -99,6 +102,8 @@ void Logger::error(const char* text, LogChannel channel) throw()
        error(text, m_File3, channel);
    } else if (channel == 4){
        error(text, m_File4, channel);
+   }else if (channel == 5){
+       error(text, m_File5, channel);
    }
 }
 
@@ -136,6 +141,8 @@ void Logger::message(const char* text, LogChannel channel) throw()
        message(text, m_File3, channel);
    } else if (channel == 4){
        message(text, m_File4, channel);
+   } else if (channel == 5){
+       message(text, m_File5, channel);
    }
 }
 
@@ -176,6 +183,8 @@ void Logger::info(const char* text, LogChannel channel) throw()
         info(text, m_File3, channel);
     } else if (channel == 4){
         info(text, m_File4, channel);
+    } else if (channel == 5){
+        info(text, m_File5, channel);
     }
 }
 
@@ -196,6 +205,8 @@ LogChannel FuzzLogging::getChannelNameByNumber(int channel) {
         return debugfile;
     } else if (channel == 4){
         return resultfile;
+    } else if (channel == 5){
+        return inputmsgfile;
     }
 }
 
@@ -207,6 +218,7 @@ static char* FuzzLogging::toString(LogChannel channel) {
         case 2: return "[interface2]  ";
         case 3: return "[debugfile ]  ";
         case 4: return "[resultfile]  ";
+        case 5: return "[inputmsgs ]  ";
     default: return "UNKNOWN CHANNEL  ";
     }
 }
