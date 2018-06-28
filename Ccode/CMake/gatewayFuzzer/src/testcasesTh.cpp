@@ -204,6 +204,9 @@ bool thread_control::sendStoerung(int id, int number, int timeout_ms)
 
 bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 {
+    std::string idstr = "send data on id: ";
+    idstr+= util::charToHexString(id);
+    LOG_MESSAGE(idstr, FuzzLogging::inputmsgfile);
     int paketamount = amount;
     int min = 0;
     int max = 255;
@@ -220,7 +223,7 @@ bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 
             std::string datass = "send data: ";
             for(int i = 0; i < x; i++) datass += util::charToHexString(data[i]);
-            LOG_MESSAGE(datass, FuzzLogging::debugfile);
+            LOG_MESSAGE(datass, FuzzLogging::inputmsgfile);
         }
         return true;
     }

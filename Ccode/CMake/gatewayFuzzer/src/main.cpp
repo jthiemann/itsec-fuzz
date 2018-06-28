@@ -43,7 +43,7 @@ int main(void)
         //    usleep(1000*1000);
         //}
 
-        //th_test::stoertest1Loop(0x200,0x7FF,2);
+        th_test::stoertest1Loop(0x200,0x7FF,2);
 
         //util::setupPIN();
         //util::setPIN(true);
@@ -59,5 +59,5 @@ int main(void)
 
         //util::updateDMESG();
 
-        test::findCyclesLog(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str(),true);
+        //test::findCyclesLog(dm->nameSPI0_0().c_str(),dm->nameSPI0_1().c_str(),dm->nameSPI1_0().c_str(),true);
 }
