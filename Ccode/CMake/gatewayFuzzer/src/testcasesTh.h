@@ -40,6 +40,8 @@ public:
 
     bool isFilterStable(int ms);
     bool isAnythingNew(int ms, bool stopOnFirstNew);
+    bool simpleLog(int ms);
+
 
     bool sendStoerung(int id, int number, int timeout_ms);
     bool generateCANMessages(int id, int amount, int timeout_ms);

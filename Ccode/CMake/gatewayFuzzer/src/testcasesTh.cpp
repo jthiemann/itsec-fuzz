@@ -70,6 +70,46 @@ void thread_control::filterBlockIdOnSender()
     }
 }
 
+bool thread_control::simpleLog(int ms)
+{
+
+    util::easytimer timer;
+    util::easytimer testtime;
+    can_frame response;
+
+    int i = 0;
+    while(!stopEarly())
+    {
+        i++;
+        if(_socket->canRecieveOne(&response,MSG_DONTWAIT))
+        {
+            timer.reset();
+            LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+        }
+        else
+        {
+            if((i % 100) == 0){
+                if(timer.XmsPassed(5000))
+                {
+                    LOG_ERROR("no msg from car in 5s",getChannelNameByNumber(getLogNumber()));
+                    this->errorDeadChannel();
+                }
+            }
+            //prevent busy waiting
+            //top %CPU dropped from 95% to 0,7%
+            std::this_thread::sleep_for (std::chrono::milliseconds(1));
+            continue;
+        }
+        if(testtime.XmsPassed(ms))
+        {
+            return true;
+        }
+
+    }
+    return false;
+}
+
+
 bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
 {
     util::easytimer timer;
@@ -138,7 +178,7 @@ bool thread_control::isFilterStable(int ms)
             if((i % 100) == 0){
                 if(timer.XmsPassed(5000))
                 {
-                    LOG_ERROR("no msg from car in 5s",getChannelNameByNumber(getLogNumber()));
+                    LOG_ERROR("no msg from car in 5s",FuzzLogging::debugfile);
                     this->errorDeadChannel();
                 }
             }
@@ -149,7 +189,7 @@ bool thread_control::isFilterStable(int ms)
         }
         if(!_filter->testframe(&response))
         {
-            LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+            LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
             stable = false;
         }
         if(testtime.XmsPassed(ms))
@@ -204,9 +244,6 @@ bool thread_control::sendStoerung(int id, int number, int timeout_ms)
 
 bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 {
-    std::string idstr = "send data on id: ";
-    idstr+= util::charToHexString(id);
-    LOG_MESSAGE(idstr, FuzzLogging::inputmsgfile);
     int paketamount = amount;
     int min = 0;
     int max = 255;
@@ -223,7 +260,7 @@ bool thread_control::generateCANMessages(int id, int amount, int timeout_ms)
 
             std::string datass = "send data: ";
             for(int i = 0; i < x; i++) datass += util::charToHexString(data[i]);
-            LOG_MESSAGE(datass, FuzzLogging::inputmsgfile);
+            LOG_MESSAGE(datass, FuzzLogging::debugfile);
         }
         return true;
     }

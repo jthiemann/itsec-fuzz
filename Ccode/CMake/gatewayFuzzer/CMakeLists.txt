@@ -14,6 +14,7 @@ set(SOURCE
    ${SRC_DIR}/testcases.cpp
    ${SRC_DIR}/testcaseCyclic.cpp
    ${SRC_DIR}/testcasesTh.cpp
+   ${SRC_DIR}/testcasesSven.cpp
    ${SRC_DIR}/util.cpp
    ${SRC_DIR}/filehandler.cpp
    ${SRC_DIR}/Logger.cpp
