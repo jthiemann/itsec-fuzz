@@ -148,12 +148,12 @@ bool thread_control::isAnythingNew(int ms, bool stopOnFirstNew)
             //decide
             if(stable)
             {
-                LOG_INFO("nothing new", getChannelNameByNumber(getLogNumber()));
+                LOG_INFO("thread: nothing new", getChannelNameByNumber(getLogNumber()));
                 return false;
             }
             else
             {
-                LOG_INFO("new msg", getChannelNameByNumber(getLogNumber()));
+                LOG_INFO("thread: new msg", getChannelNameByNumber(getLogNumber()));
                 return true;
             }
         }
@@ -189,7 +189,7 @@ bool thread_control::isFilterStable(int ms)
         }
         if(!_filter->testframe(&response))
         {
-            LOG_INFO(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
+            LOG_MESSAGE(util::stdCANframe(response), getChannelNameByNumber(getLogNumber()));
             stable = false;
         }
         if(testtime.XmsPassed(ms))
@@ -197,13 +197,13 @@ bool thread_control::isFilterStable(int ms)
             //decide
             if(stable)
             {
-                LOG_INFO("filter-stable", getChannelNameByNumber(getLogNumber()));
+                LOG_INFO("thread: filter-stable", getChannelNameByNumber(getLogNumber()));
                 _isStable  =true;
                 return true;
             }
             else
             {
-                LOG_INFO("filter-unstable", getChannelNameByNumber(getLogNumber()));
+                LOG_INFO("thread: filter-unstable", getChannelNameByNumber(getLogNumber()));
                 return false;
             }
         }
@@ -218,6 +218,11 @@ bool thread_control::sendStoerung(int id, int number, int timeout_ms)
     int max = 255;
     char data[8];
     int minNumber = 10;
+
+    std::string header = "---> id = ";
+    header+= util::toHexString(id);
+    LOG_MESSAGE(header, FuzzLogging::inputmsgfile);
+
     while(number != 0)
     {
         number = number /2;
@@ -233,9 +238,9 @@ bool thread_control::sendStoerung(int id, int number, int timeout_ms)
             _socket->canSend(id, lenght, data, false);
             usleep(timeout_ms*1000);
 
-            //std::string datass = "send data: ";
-            //for(int i = 0; i < lenght; i++) datass += util::charToHexString(data[i]);
-            //LOG_INFO(datass, getChannelNameByNumber(getSPI()));
+            std::string datass = "send data: ";
+            for(int i = 0; i < lenght; i++) datass += util::charToHexString(data[i]);
+            LOG_MESSAGE(datass, FuzzLogging::inputmsgfile);
         }
         lenght = 9;
     }
@@ -289,10 +294,10 @@ int th_test::stoertest1DoStoerung(thread_control *ctl)
 
 int th_test::stoertest1Do(thread_control *ctl)
 {
-    LOG_INFO("log2Logger-stoertest", getChannelNameByNumber(ctl->getSPI()));
+    LOG_INFO("thread: start", getChannelNameByNumber(ctl->getSPI()));
     //while(control->isWaiting()){ std::this_thread::sleep_for (std::chrono::milliseconds(1)); }
 
-    LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(ctl->getSPI()));
+    //LOG_INFO("log2Logger-filter stable?", getChannelNameByNumber(ctl->getSPI()));
 
     // ToDo set filter default
     ctl->_filter->setStaticBlockList(ctl->getSPI());
@@ -306,7 +311,7 @@ int th_test::stoertest1Do(thread_control *ctl)
             if(ctl->stopEarly()) goto stop;
             if(!ctl->isFilterStable(8000))
             {
-                LOG_INFO("log2Logger-filter not stablelising", getChannelNameByNumber(ctl->getSPI()));
+                LOG_INFO("not stablelising", getChannelNameByNumber(ctl->getSPI()));
                 ctl->errorFilterUnstable();
                 if(ctl->stopEarly()) goto stop;
             }
@@ -314,17 +319,17 @@ int th_test::stoertest1Do(thread_control *ctl)
     }
     //List everything that goes through the filter
 
-    if(ctl->isAnythingNew(60*3*1000,true))  //max 3 min will usually be stoped by stoerthread
+    if(ctl->isAnythingNew(60*3*1000,false))  //max 3 min will usually be stoped by stoerthread
     {
-        LOG_INFO("log2Logger new msg detected", getChannelNameByNumber(ctl->getSPI()));
+        LOG_INFO("new msg detected", getChannelNameByNumber(ctl->getSPI()));
     }
     else
     {
-        LOG_INFO("log2Logger nothing", getChannelNameByNumber(ctl->getSPI()));
+        //LOG_INFO("thread: nothing", getChannelNameByNumber(ctl->getSPI()));
     }
 
     ctl->done();
-    LOG_INFO("log2Logger done", getChannelNameByNumber(ctl->getSPI()));
+    LOG_INFO("thread: done", getChannelNameByNumber(ctl->getSPI()));
 
 
     return 0;
@@ -333,11 +338,11 @@ stop:
 
     if(ctl->hasError())
     {
-        if(ctl->getError() == e_deadchannel) LOG_ERROR("log2Logger-dead Interface", getChannelNameByNumber(ctl->getSPI()));
-        if(ctl->getError() == e_filterunstable) LOG_ERROR("log2Logger-filter not stablelising", getChannelNameByNumber(ctl->getSPI()));
-        if(ctl->getError() == e_unknown) LOG_ERROR("log2Logger-unknown error", getChannelNameByNumber(ctl->getSPI()));
+        if(ctl->getError() == e_deadchannel) LOG_ERROR("thread: dead Interface", getChannelNameByNumber(ctl->getSPI()));
+        if(ctl->getError() == e_filterunstable) LOG_ERROR("thread: filter not stablelising", getChannelNameByNumber(ctl->getSPI()));
+        if(ctl->getError() == e_unknown) LOG_ERROR("thread: unknown error", getChannelNameByNumber(ctl->getSPI()));
     }
-    if(ctl->hasInterrupt()) LOG_INFO("log2Logger was interrupted", getChannelNameByNumber(ctl->getSPI()));
+    if(ctl->hasInterrupt()) LOG_INFO("thread: was interrupted", getChannelNameByNumber(ctl->getSPI()));
 
     return 0;
 
@@ -378,7 +383,13 @@ int th_test::stoertest1(int id, int spiStoerung, canSocket * spi0,canSocket * sp
                 break;
             }
             if(ctl[i]->isStable()) stable ++;
-            if(stable == 3) ctl[3]->start();
+            if(stable == 3)
+            {
+                //if(ctl[0]->isStable()) LOG_INFO("0 stable", FuzzLogging::debugfile);
+                //if(ctl[1]->isStable()) LOG_INFO("1 stable", FuzzLogging::debugfile);
+                //if(ctl[2]->isStable()) LOG_INFO("2 stable", FuzzLogging::debugfile);
+                ctl[3]->start();
+            }
             if(ctl[i]->stopEarly())
             {
                 if(ctl[i]->hasError())

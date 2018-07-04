@@ -44,8 +44,8 @@ int main(void)
         //    usleep(1000*1000);
         //}
 
-        //th_test::stoertest1Loop(0x200,0x7FF,2);
-        th_test_sven::stoertest1Loop(0x200,0x7FF,2);
+        th_test::stoertest1Loop(0x00,0x7FF,1);
+        //th_test_sven::stoertest1Loop(0x200,0x7FF,2);
 
 
         //util::setupPIN();
