@@ -1,9 +1,9 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <queue>
 #include <math.h>
+#include <utility>
 
 using namespace std;
 
@@ -16,38 +16,37 @@ queue<int> log_to_ID_queue(string log_name) {
     queue<int> ID, ID2;
     string cstr;
     fstream f;
-    size_t pos;  //size_t ist integral type notwendig für die find function
+    size_t pos=0;  //size_t ist integral type notwendig für die find function
 
     f.open(log_name,ios::in );
-    pos=cstr.find(Trenner); //pos gibt die Position von # im string an
 
     if (f.is_open()){
-    cout << log_name << " offen" << endl;
+    //cout << log_name << " offen" << endl;
 
     while(getline(f, cstr)){
         //Dieser Block ermittlet die ID der Nachricht
+        pos=cstr.find("[INFO]");
+        if(pos<cstr.size()) continue;
+        pos=cstr.find("[ERROR]");
+        if(pos<cstr.size()) continue;
+        pos=cstr.find("stoer Log done");
+        if(pos<=cstr.size()) break;
+
         pos=cstr.find(Trenner);
+        //cout << "Pos="<<pos<< endl;
+        //cout << cstr << endl;
         int pos_ID = pos-3;     //position der ID
         string ID_char = cstr.substr(pos_ID, 3); //kopiere im String
+
         int ID_char_i = stoi(ID_char, nullptr, 16);   //konvertierung von String zu Dec
         ID2.push(ID_char_i);
     }
     }
     f.close();
     if(!f.is_open()){
-        cout << "Doc geschlossen" << endl;
+        //cout << "Doc geschlossen" << endl;
     }
     return ID2;
-}
-
-queue<int> Inhalts_queue(){
-    //queue<string> Inhalt;
-    //Dieser Block ermittelt den Nachrichteninhalt
-    //int pos_Inhalt= pos+1;
-    //int Inhalt_length = cstr.length();
-    //string Inhalt_string = cstr.substr(pos_Inhalt, Inhalt_length-pos_Inhalt); //kopiere im String
-    //Inhalt.push(Inhalt_string);
-
 }
 
 struct array verwendete_IDs(queue<int> ID){
@@ -151,22 +150,106 @@ struct array freq_IDs(queue<int> ID){
 
 }
 
+//Gibt die Anzahl unterschiedlicher IDs in einem array an
+int  count_ID_arr(struct array ID_array){
+    int Anz_IDs=0;
+    for(int i=0;i<100; i++){
+        if(ID_array.wert[i]==0) break;
+        Anz_IDs++;
+    }
+    return Anz_IDs;
+}
+
+//Gibt die Anzahl unterschiedlicher IDs in einem array_float an
+float  count_ID_arr_float(struct array_float ID_array){
+    int Anz_IDs=0;
+    for(int i=0;i<100; i++){
+        if(ID_array.wert[i]==0) break;
+        Anz_IDs++;
+    }
+    return Anz_IDs;
+}
+
+int sum_freq_ID(struct array freq_ID){
+    int NachrichtenAnzahl=0;
+
+    for(int i=0; i<count_ID_arr(freq_ID); i++){
+        NachrichtenAnzahl=NachrichtenAnzahl+freq_ID.wert[i];
+    }
+    return NachrichtenAnzahl;
+}
+
 struct array_float Verteilung_IDs(struct array freq_bekannte_IDs){
     struct array_float Verteilung;
-    int Anz_IDs=0, i=0;
-    while (freq_bekannte_IDs.wert[i]!=0) {
-        Anz_IDs+=freq_bekannte_IDs.wert[i];
-        i++;
-    }
-    i=0;
-    while(freq_bekannte_IDs.wert[i]!=0){
-        double ver;
+    int Anz_IDs=sum_freq_ID(freq_bekannte_IDs), i=0;
+
+    while(i<count_ID_arr(freq_bekannte_IDs)){
+        float ver;
         ver= static_cast<float>(freq_bekannte_IDs.wert[i])/static_cast<float>(Anz_IDs);
         //Verteilung.push(ver);
         Verteilung.wert[i]=ver;
         i++;
     }
     return Verteilung;
+}
+
+//Print Funktion für ein struct array
+void print_arr(struct array sorted_arr){
+    cout << "Ausgabe eines Arrays:"<< endl;
+    for(int i=0; i<count_ID_arr(sorted_arr); i++){
+        if(sorted_arr.wert[i]>2000){
+            sorted_arr.wert[i]=0;
+            continue;
+        }
+        cout<< "ID: " << sorted_arr.wert[i]<< endl;
+    }
+    cout<< "Anzahl verschiedener Eintraege: " << count_ID_arr(sorted_arr) << endl;
+}
+
+//Print Funktion für ein struct array_float
+void print_arr_float(struct array_float sorted_arr){
+    cout << "%-Verteilung der IDs:"<< endl;
+    for(int i=0; i<count_ID_arr_float(sorted_arr); i++){
+        cout<< "ID: " << sorted_arr.wert[i]<< endl;
+    }
+    cout<< "Anzahl verschiedener Eintraege: " << count_ID_arr_float(sorted_arr) << endl;
+}
+
+
+
+queue<int> arr_to_queue(struct array ID_arr){
+    queue<int> ID_q;
+    int n= count_ID_arr(ID_arr);
+    for(int i=0; i<n; i++){
+        ID_q.push(ID_arr.wert[i]);
+    }
+    return ID_q;
+}
+
+int binarySearch(int arr[], int l, int r, int x)
+{
+   if (r >= l)
+   {
+        int mid = l + (r - l)/2;
+
+        // If the element is present at the middle
+        // itself
+        if (arr[mid] == x)
+            return mid;
+
+        // If element is smaller than mid, then
+        // it can only be present in left subarray
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid-1, x);
+
+        // Else the element can only be present
+        // in right subarray
+        return binarySearch(arr, mid+1, r, x);
+   }
+
+   // We reach here when element is not
+   // present in array
+   return -1;
 }
 
 // To heapify a subtree rooted with node i which is
@@ -213,6 +296,7 @@ void heapSort(int arr[], int n)
     }
 }
 
+//Sortierung meines struct arrays
 struct array ID_heapsort(struct array ID_unsortiert, int arr_size){
     //ID_unsortiert.size()=
     int sort_arr [arr_size];
@@ -227,15 +311,9 @@ struct array ID_heapsort(struct array ID_unsortiert, int arr_size){
     return ID_unsortiert;
 }
 
-int  count_ID_arr(struct array ID_array){
-    int Anz_IDs=0;
-    for(int i=0;i<100; i++){
-        if(ID_array.wert[i]==0) break;
-        Anz_IDs++;
-    }
-    return Anz_IDs;
-}
 
+
+//ordnet dem sortierten ID array die richtigen Häufigkeiten zu
 struct array sort_freq(struct array sort_ID_arr, struct array unsort_ID_arr, struct array unsort_freq_arr){
     int zaehler=count_ID_arr(unsort_freq_arr);
     struct array sort_freq_arr;
@@ -250,6 +328,7 @@ struct array sort_freq(struct array sort_ID_arr, struct array unsort_ID_arr, str
     return sort_freq_arr;
 }
 
+//Konstruktor für ein sortiertes ID array
 struct array sort_ID_from_log(string log_name){
     queue<int> ID;
     int Anz_versch_IDs=0;
@@ -263,6 +342,20 @@ struct array sort_ID_from_log(string log_name){
     return sort_ID_array;
 }
 
+struct array sort_ID_from_queue(queue<int> ID_queue){
+    //queue<int> ID;
+    int Anz_versch_IDs=0;
+    struct array bekannte_IDs, sort_ID_array;
+
+    //ID=log_to_ID_queue(log_name);
+    bekannte_IDs=verwendete_IDs(ID_queue);
+    Anz_versch_IDs=count_ID_arr(bekannte_IDs);
+    sort_ID_array=ID_heapsort(bekannte_IDs,Anz_versch_IDs);
+
+    return sort_ID_array;
+}
+
+//Konstruktor für ein sortiertes freq array
 struct array sort_freq_from_log(string log_name){
     queue<int> ID;
     int Anz_versch_IDs=0;
@@ -279,125 +372,330 @@ struct array sort_freq_from_log(string log_name){
     return sort_freq_array;
 }
 
+struct array sort_freq_from_queue(queue<int> ID_queue){
+    //queue<int> ID;
+    int Anz_versch_IDs=0;
+    struct array bekannte_IDs, freq_bekannte_IDs, sort_freq_array, sort_ID_array;
+
+    //ID=log_to_ID_queue(log_name);
+    //cout << "ID queue size:"<< ID.size()<< endl;
+    cout << "Test"<< endl;
+
+    bekannte_IDs=verwendete_IDs(ID_queue);
+    freq_bekannte_IDs=freq_IDs(ID_queue);
+    Anz_versch_IDs=count_ID_arr(bekannte_IDs);
+    sort_ID_array=ID_heapsort(bekannte_IDs,Anz_versch_IDs);
+    sort_freq_array=sort_freq(sort_ID_array,bekannte_IDs,freq_bekannte_IDs);
+
+    return sort_freq_array;
+}
+
+//Konstruktor für ein pair aus ID array und freq array
+pair<array, array> pair_from_log(string log_name){
+    struct array sort_freq_array1, sort_ID_array1;
+
+    sort_ID_array1=sort_ID_from_log(log_name);
+    sort_freq_array1=sort_freq_from_log(log_name);
+
+    pair<array, array> ID_u_freq_pair (sort_ID_array1, sort_freq_array1);
+    return ID_u_freq_pair;
+}
+
+pair<array, array> pair_from_queue(queue<int>ID_queue){
+    struct array sort_freq_array1, sort_ID_array1;
+
+    sort_ID_array1=sort_ID_from_queue(ID_queue);
+    sort_freq_array1=sort_freq_from_queue(ID_queue);
+
+    pair<array, array> ID_u_freq_pair (sort_ID_array1, sort_freq_array1);
+    return ID_u_freq_pair;
+}
+
+
+//Print Funktion für ein pair<array, array>
+void print_IDuFreq(pair<array,array> sorted_ID){
+    int Anz_IDs= count_ID_arr(sorted_ID.first), Nachrichten_Anz=0;
+    cout << "Liste der IDs und ihre Haeufigkeit" << endl;
+    for(int i=0; i<Anz_IDs;i++){
+        Nachrichten_Anz=Nachrichten_Anz+sorted_ID.second.wert[i];
+        if(sorted_ID.first.wert[i]==0) break;
+        cout << "ID:" << sorted_ID.first.wert[i] << " Freq: "<< sorted_ID.second.wert[i] << endl;
+    }
+    cout << "Nachrichten insgesamt:"<< Nachrichten_Anz << endl;
+    cout << "Anzahl verschiedener IDs:"<< Anz_IDs<< endl;
+
+}
+
+//hier könnte ein Succhalgorithmus für sortierte Folgen hilfreich sein
+//gibt IDs aus die beiden arrays auftauchen
 struct array arr_same_ID(struct array ID1, struct array ID2){
     struct array same_ID;
     int n1=count_ID_arr(ID1), n2=count_ID_arr(ID2), j=0;
 
-    for(int i=0; i<max(n1,n2); i++){
-        if(ID1.wert[i]==ID2.wert[i]){
-            same_ID.wert[j]=ID1.wert[i];
-            j++;
+    if(n2>n1) arr_same_ID(ID2, ID1);
+
+    for(int i=0; i<n1; i++){
+        if(ID1.wert==0) break;
+        for(int k=0; k<n2; k++){
+            //if(ID1.wert[i]>ID2.wert[j]) continue;
+            if(ID1.wert[i]==ID2.wert[k]){
+                same_ID.wert[j]=ID1.wert[i];
+                if(same_ID.wert[i]>2000){
+                    same_ID.wert[i]=0;
+                    continue;
+                }
+
+                j++;
+                break;
+            }
+            //if(ID1.wert[i]<ID2.wert[j]) break;
         }
     }
     return same_ID;
 }
 
-//sort_ID2 muss unbedingt die größere sein
-struct array arr_same_ID_same_pos(struct array sort_ID1, struct array sort_ID2){
-    int n1=count_ID_arr(sort_ID1), n2=count_ID_arr(sort_ID2), temp=2001;
-    queue<int> ID1,ID2;
+struct array arr_diff_ID_bi(struct array sort_ID1, struct array sort_ID2){
+    int ID1_arr[count_ID_arr(sort_ID1)], ID2_arr[count_ID_arr(sort_ID2)];
+    int n1=count_ID_arr(sort_ID1), n2=count_ID_arr(sort_ID2), ID_loc, j=0;
+    struct array return_arr;
 
-    if(n2<n1)arr_same_ID_same_pos(sort_ID2,sort_ID1);
-
+    for(int i=0; i<n1; i++){
+        ID1_arr[i]=sort_ID1.wert[i];
+    }
     for(int i=0; i<n2; i++){
-        ID1.push(sort_ID1.wert[i]);
-        ID2.push(sort_ID2.wert[i]);
+        ID2_arr[i]=sort_ID2.wert[i];
     }
-    for(int i=0; i<ID2.size(); i++){
-        if(ID1.front()==ID2.front()){
-            sort_ID1.wert[i]=ID1.front();
-            sort_ID1.wert[n2+i]=ID2.front();
-            ID1.pop(); ID2.pop();
-            cout << "Wert geaendert"<< endl;
-            continue;
-        }
-        if(ID1.front()>ID2.front()){
-            sort_ID1.wert[i]=2001;
-            sort_ID1.wert[n2+i]=ID2.front();
-            ID2.pop();
-            cout << "Wert geaendert"<< endl;
-            continue;
-        }
-        if(ID1.front()<ID2.front()){
-            sort_ID1.wert[i]=ID1.front();
-            sort_ID1.wert[n2+i]=2001;
-            ID1.pop();
-            cout << "Wert geaendert"<< endl;
-            //continue;
+
+    for(int i=0; i<n1; i++){
+        ID_loc= binarySearch(ID2_arr,0,n2-1,ID1_arr[i]);
+
+        if(ID1_arr[i]==0) break;
+
+        if(ID_loc!=-1) continue;
+
+        if(ID_loc==-1){
+            return_arr.wert[j]= ID1_arr[i];
+            j++;
         }
     }
-    return sort_ID1;
+
+    for(int i=0; i<count_ID_arr(return_arr); i++){
+        ID_loc=binarySearch(ID2_arr, 0, count_ID_arr(sort_ID2),return_arr.wert[i]);
+
+        if(return_arr.wert[i-1]>return_arr.wert[i]) return_arr.wert[i]=0;
+        if(ID_loc==-1) continue;
+        if (ID_loc!=-1){
+            return_arr.wert[i]=0;
+        }
+    }
+    //print_arr(return_arr);
+    return return_arr;
 }
 
-struct array_float diff_Vert_same_ID(struct array ID1, struct array ID2, struct array_float Vert1, struct array_float Vert2){
+pair<array, array> missing_in_ID2 (struct array sort_ID1, struct array sort_ID2, struct array sort_ID1_freq){
+    struct array missing_ID, missing_ID_freq;
+    missing_ID= arr_diff_ID_bi(sort_ID1,sort_ID2);
+
+    //print_arr(arr_diff_ID_bi(sort_ID1,sort_ID2));
+    pair<array, array> return_pair;
+    int sort_ID1_arr [count_ID_arr(sort_ID1)];
+
+    for(int i=0; i<count_ID_arr(sort_ID1); i++){
+        sort_ID1_arr[i]=sort_ID1.wert[i];
+    }
+
+    for(int i=0; i<count_ID_arr(missing_ID); i++){
+        int ID_pos;
+        ID_pos= binarySearch(sort_ID1_arr,0,count_ID_arr(sort_ID1),missing_ID.wert[i]);
+
+        if(ID_pos==-1) continue;
+        if(ID_pos!=-1){
+            missing_ID_freq.wert[i]= sort_ID1_freq.wert[ID_pos];
+        }
+    }
+    return_pair.first=missing_ID;
+    return_pair.second=missing_ID_freq;
+
+    return return_pair;
+}
+
+void  print_diff_Vert_same_ID(struct array ID1, struct array ID2){
    int n1=count_ID_arr(ID1), n2=count_ID_arr(ID2), j=0;
-   array_float diff;
+   array_float Vert1, Vert2, diff;
+   Vert1= Verteilung_IDs(sort_freq_from_queue(arr_to_queue(ID1)));
+   Vert2= Verteilung_IDs(sort_freq_from_queue(arr_to_queue(ID2)));
    for(int i=0; i<max(n1,n2); i++){
         if(ID1.wert[i]==ID2.wert[i]){
-            diff.wert[j]=fabs(Vert1.wert[i]-Vert2.wert[i]);
+           cout<< fabs(Vert1.wert[i]-Vert2.wert[i])<< endl;
             j++;
         }
    }
-   return diff;
+   //return diff;
 }
 
-struct array arr_diff_ID(struct array ID1, struct array ID2){
-    struct array diff_ID;
-    int n1=count_ID_arr(ID1), n2=count_ID_arr(ID2), k=0;
+//alte Version
+void print_Vergleich (string log_name1, string log_name2){
+    pair<array, array> log1, log2, missing_in_2;
+    struct array same_ID;
+    struct array_float Verteilung1, Verteilung2;
+    int Anz_Nachrichten_log1=0, Anz_Nachrichten_log2=0;
 
-    for(int j=0; j<max(n1,n2); j++)
-    for(int i=0; i<min(n1,n2); i++){
-        if(ID1.wert[i]!=ID2.wert[i]){
-            diff_ID.wert[k]=ID2.wert[i];
-            k++;
-        }
+    log1= pair_from_log(log_name1);
+    log2= pair_from_log(log_name2);
+    missing_in_2= missing_in_ID2(log1.first, log2.first, log1.second);
+    same_ID= arr_same_ID(log1.first, log2.first);
+    print_arr(same_ID);
+    Verteilung1= Verteilung_IDs(log1.second);
+    Verteilung2= Verteilung_IDs(log2.second);
+
+    //print_arr_float(Verteilung1);
+
+    int n1= count_ID_arr(log1.first), n2= count_ID_arr(log2.first);
+    cout << "Log1: "<< log_name1<< "              "<< "Log2: "<< log_name2<< endl;
+    for(int i=0; i<max(n1,n2); i++){
+        cout<< "ID: "<< log1.first.wert[i]<< "  Freq: "<< right <<log1.second.wert[i]<<right<< " Vert: "<<Verteilung1.wert[i] <<"                "<<"ID: "<<log2.first.wert[i]<< right <<"  Freq: "<<log2.second.wert[i]<<" Vert: "<<Verteilung2.wert[i] <<endl;
+        Anz_Nachrichten_log1= Anz_Nachrichten_log1+log1.second.wert[i];
+        Anz_Nachrichten_log2= Anz_Nachrichten_log2+log2.second.wert[i];
     }
-    return diff_ID;
 
+    cout << "#Nachrichten in Log1: "<< Anz_Nachrichten_log1<< "         "<< "#Nachrichten in Log2: "<< Anz_Nachrichten_log2<< endl;
+    cout << "Werte die in ID1 auftauchen und in ID2 fehlen" << endl;
+    print_IDuFreq(missing_in_2);
+    print_arr(same_ID);
+
+
+}
+
+void print_Vergleich_queue (queue<int> ID1_queue, queue<int> ID2_queue){
+    pair<array, array> Ref_Log, Stoer_Log, missing_in_2;
+    struct array same_ID;
+    struct array_float Verteilung1, Verteilung2, diff;
+    int Anz_Nachrichten_log1=0, Anz_Nachrichten_log2=0;
+
+    Ref_Log= pair_from_queue(ID1_queue);
+    Stoer_Log= pair_from_queue(ID2_queue);
+
+    missing_in_2= missing_in_ID2(Ref_Log.first, Stoer_Log.first, Ref_Log.second);
+    same_ID= arr_same_ID(Ref_Log.first, Stoer_Log.first);
+    Verteilung1= Verteilung_IDs(Ref_Log.second);
+    Verteilung2= Verteilung_IDs(Stoer_Log.second);
+
+    int n1= count_ID_arr(Ref_Log.first), n2= count_ID_arr(Stoer_Log.first);
+    for(int i=0; i<max(n1,n2); i++){
+        cout<< "ID: "<< Ref_Log.first.wert[i]<< "  Freq: "<< right <<Ref_Log.second.wert[i]<<right<< " Vert: "<<Verteilung1.wert[i] <<"                "<<"ID: "<<Stoer_Log.first.wert[i]<< right <<"  Freq: "<<Stoer_Log.second.wert[i]<<" Vert: "<<Verteilung2.wert[i] <<endl;
+        Anz_Nachrichten_log1= Anz_Nachrichten_log1+Ref_Log.second.wert[i];
+        Anz_Nachrichten_log2= Anz_Nachrichten_log2+Stoer_Log.second.wert[i];
+    }
+
+    cout << "#Nachrichten in Log1: "<< Anz_Nachrichten_log1<< "         "<< "#Nachrichten in Log2: "<< Anz_Nachrichten_log2<< endl;
+    cout << "Anzahl IDs in Ref_Log: "<< count_ID_arr(Ref_Log.first)<<"      "<< "Anzahl IDs in Stoer_Log: "<< count_ID_arr(Stoer_Log.first)<< endl;
+    cout << "Werte die in ID1 auftauchen und in ID2 fehlen" << endl;
+    print_IDuFreq(missing_in_2);
+    cout << "IDs die in beiden Logs auftauchen" << endl;
+    print_arr(same_ID);
+    cout<< "Veraenderungen in der Verteilung"<< endl;
+    //diff= diff_Vert_same_ID(Ref_Log.first,Stoer_Log.first);
+    //print_arr_float(Verteilung_IDs(Ref_Log.second));
+    print_diff_Vert_same_ID(Ref_Log.first,Stoer_Log.first);
+}
+
+void Fliestext(string ausgabe_dat, string messung_result){
+    long pos_in=0;
+    fstream out, in;
+    in.open(messung_result, ios::in);
+    out.open(ausgabe_dat,ios::out);
+
+    queue<int> akt_ID,ID1, ID2, ID_leer, Anz_IDs_ungleich;
+    string cstr;
+    size_t pos=0;  //size_t ist integral type notwendig für die find function
+    int ID_store;
+
+    if (in.is_open()){
+
+    while(getline(in, cstr)){
+        //Dieser Block ermittlet die ID der Nachricht
+        pos=cstr.find("stoerID: 0x");
+        if(pos<cstr.size()){
+            int pos2=cstr.find("0x");
+            string ID_str = cstr.substr(pos2+2, 3);
+            int ID_str_i = stoi(ID_str, nullptr, 16);   //konvertierung von String zu Dec
+            ID_store=ID_str_i;
+
+            if(ID_str_i>=600) break;
+
+            out << "Auswertung der Messung mit der Stoer_ID: "<< ID_str_i<< endl;
+            cout << "Test start Fliestext Fkt ID="<<ID_str_i << endl;
+
+        }
+        pos=cstr.find("log2Logger was interrupted");
+        if(pos<cstr.size()){
+            ID1=ID_leer;
+            ID2=ID_leer;
+
+        }
+        pos=cstr.find("[ERROR]: log2Logger-filter not stablelising");
+        if(pos<cstr.size()){
+            ID1=ID_leer;
+            ID2=ID_leer;
+            continue;
+        }
+        pos=cstr.find("[INFO]: filter-stable");
+        if(pos<cstr.size()){
+            //ID2=akt_ID;
+            cout << "Ref gestartet"<< endl;
+            //akt_ID=ID1;
+        }
+        pos=cstr.find("[INFO]: reference Log done");
+        if(pos<cstr.size()){
+            ID1=akt_ID;
+            cout << "Ref zu Stoer gewechselt"<< endl;
+            akt_ID=ID_leer;
+        }
+        pos=cstr.find("stoer Log done");
+        if(pos<=cstr.size()){
+            ID2=akt_ID;
+            akt_ID=ID_leer;
+            print_Vergleich_queue(ID1, ID2);
+
+            cout<< "ID1 size"<<ID1.size()<< endl;
+            cout<< "ID2 size"<<ID2.size()<< endl;
+            int n1= count_ID_arr(sort_ID_from_queue(ID1)), n2=count_ID_arr(sort_ID_from_queue(ID2)), n_same=count_ID_arr(arr_same_ID(sort_ID_from_queue(ID1),sort_ID_from_queue(ID2)));
+            if(n1 != n2 && n1 != n_same) Anz_IDs_ungleich.push(ID_store);
+            cout <<"Eine Messung beendet" << endl;
+            ID1=ID_leer;
+            ID2=ID_leer;
+            //break;
+        }
+        pos=cstr.find("[INFO]:");
+        if(pos<cstr.size()) continue;
+
+
+        pos=cstr.find(Trenner);
+        int pos_ID = pos-3;     //position der ID
+        string ID_char = cstr.substr(pos_ID, 3); //kopiere im String
+
+        int ID_char_i = stoi(ID_char, nullptr, 16);   //konvertierung von String zu Dec
+        akt_ID.push(ID_char_i);
+    }
+
+    }
+    if(Anz_IDs_ungleich.size()==0) cout<<"Keine besonderen Stoerer"<<endl;
+    if(Anz_IDs_ungleich.size()!=0) cout<<Anz_IDs_ungleich.front() <<endl;
+
+    in.close();
 }
 
 int main()
 {
-    int Nachrichten_Anz=0, Anz_versch_IDs1=0, Anz_versch_IDs2=0;
-    float sum_vert=0;
-    struct array_float Verteilung1, Verteilung2, Differenz;
-    struct array sort_freq_array1, sort_freq_array2, sort_ID_array1, sort_ID_array2, same_ID, diff_ID;
+    //int Nachrichten_Anz=0;
+    //float sum_vert=0;
+    struct array_float Verteilung1;//, Verteilung2, Differenz;
 
-    sort_ID_array1=sort_ID_from_log("can1.txt");
-    sort_freq_array1=sort_freq_from_log("can1.txt");
-    Anz_versch_IDs1=count_ID_arr(sort_ID_array1);
-    Verteilung1=Verteilung_IDs(sort_freq_array1);
+    //print_Vergleich("can2_var.txt", "can3.txt");
+    //print_Vergleich("can3.txt", "can2.txt");
+    //print_Vergleich("can3.txt", "can2_var.txt");
 
-    sort_ID_array2=sort_ID_from_log("can1_var.txt");
-    sort_freq_array2=sort_freq_from_log("can1_var.txt");
-    Anz_versch_IDs2=count_ID_arr(sort_ID_array2);
-    Verteilung2=Verteilung_IDs(sort_freq_array2);
+    Fliestext("Ergebniss.txt", "interface2.log");
 
-    Differenz=diff_Vert_same_ID(sort_ID_array1,sort_ID_array2,Verteilung1,Verteilung2);
-    same_ID=arr_same_ID(sort_ID_array1,sort_ID_array2);
-
-    sort_ID_array1=arr_same_ID_same_pos(sort_ID_array1,sort_ID_array2);
-   // sort_ID_array2=arr_same_ID_same_pos(sort_ID_array2,sort_ID_array1);
-
-    //diff_ID=arr_diff_ID(sort_ID_array1,sort_ID_array2);
-
-    cout << "Liste der bekannten IDs:" << endl;
-    for (int i=0; i<Anz_versch_IDs1; i++){
-        Nachrichten_Anz=Nachrichten_Anz+sort_freq_array1.wert[i];
-        if(sort_ID_array1.wert[i]==0) break;
-        sum_vert+=Verteilung1.wert[i];
-        //cout << "ID:" << sort_ID_array1.wert[i] << " Freq: "<< sort_freq_array1.wert[i] << " %-Vert:"<< Verteilung1.wert[i] << endl;
-    }
-    cout << "Nachrichten insgesamt:"<< Nachrichten_Anz << endl;
-    cout << "kummulierte Verteilung:"<< sum_vert << endl;
-    cout << "Anzahl verschiedener IDs:"<< Anz_versch_IDs1<< endl;
-    cout << "Differenz der Häufigkeit bei gleichen IDs"<< endl;
-    for(int i=0; i<count_ID_arr(same_ID);i++){
-        cout << "ID:"<< same_ID.wert[i]<< "Differenz der Verteilung:"<< Differenz.wert[i]<< endl;
-    }
-    cout << "IDs die nicht in array1 auftauchen" << endl;
-    for(int i=0; i<max(count_ID_arr(sort_ID_array1),count_ID_arr(sort_ID_array2)); i++){
-        cout << "IDs can1: "<< sort_ID_array1.wert[i]<< " IDs can1_var:"<< sort_ID_array1.wert[(count_ID_arr(sort_ID_array1)/2)+i]<< endl;
-    }
     return 0;
 }
